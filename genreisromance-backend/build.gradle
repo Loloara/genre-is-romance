@@ -1,0 +1,55 @@
+buildscript {
+	ext {
+		springBootVersion = "2.2.4.RELEASE"
+	}
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+	}
+}
+
+apply plugin: "java"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+
+group = "com.loloara"
+version = "0.0.1-SNAPSHOT"
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+bootRun.systemProperties = System.properties
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
+	implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
+	implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+	implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.1"
+	compileOnly "org.projectlombok:lombok"
+	developmentOnly "org.springframework.boot:spring-boot-devtools:$springBootVersion"
+	runtimeOnly "mysql:mysql-connector-java"
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+	annotationProcessor "org.projectlombok:lombok"
+	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
+		exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+	}
+	testImplementation "org.springframework.security:spring-security-test"
+}
+
+test {
+	useJUnitPlatform()
+}
