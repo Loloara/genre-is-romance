@@ -1,55 +1,60 @@
 package com.loloara.genreisromance.config;
 
-import com.zaxxer.hikari.HikariConfig;
+import com.loloara.genreisromance.model.User;
 import com.zaxxer.hikari.HikariDataSource;
-import com.zaxxer.hikari.metrics.micrometer.MicrometerMetricsTracker;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
-import org.springframework.context.ApplicationContextException;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.util.Arrays;
+import java.util.Objects;
 
+@Slf4j
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(basePackages = "com.loloara.genreisromance.repository",
+                       entityManagerFactoryRef = "appEntityManagerFactory",
+                        transactionManagerRef = "appTransactionManager")
 public class DatabaseConfig {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    @Bean
+    @Primary
+    @ConfigurationProperties("app.datasource")
+    public DataSourceProperties appDataSourceProperties() {
+        return new DataSourceProperties();
+    }
 
-    @Autowired
-    private Environment environment;
+    @Bean
+    @Primary
+    @ConfigurationProperties("app.datasource.hikari")
+    public DataSource appDataSource() {
+        return appDataSourceProperties().initializeDataSourceBuilder()
+                .type(HikariDataSource.class).build();
+    }
 
-    @Autowired(required = false)
-    private MicrometerMetricsTracker micrometerMetricsTracker;
+    @Bean(name = "appEntityManagerFactory")
+    @Primary
+    public LocalContainerEntityManagerFactoryBean appEntityManagerFactory(EntityManagerFactoryBuilder builder) {
+        return builder
+                .dataSource(appDataSource())
+                .packages(User.class)
+                .build();
+    }
 
-    @Bean(destroyMethod = "close")
-    public DataSource dataSource(DataSourceProperties dataSourceProperties, ApplicationProperties applicationProperties) throws Exception {
-        log.debug("Configuring Datasource");
-        log.debug("url: " + dataSourceProperties.getUrl());
-        log.debug("driver: " + dataSourceProperties.getDriverClassName());
-        log.debug("username: " + dataSourceProperties.getUsername());
-        log.debug("psssword: " + dataSourceProperties.getPassword());
-
-        if(dataSourceProperties.getUrl() == null) {
-            log.error("Your database connection pool configuration is incorrect! The application cannot start. " +
-                    "Please check your Spring profile, current profiles are: {}", Arrays.toString(environment.getActiveProfiles()));
-            throw new ApplicationContextException("Database connection pool is not configured correctly");
-        }
-
-        HikariConfig config = new HikariConfig();
-
-        config.setDataSourceClassName(dataSourceProperties.getDriverClassName());
-        config.setJdbcUrl(dataSourceProperties.getUrl());
-        config.setUsername(dataSourceProperties.getUsername() != null ? dataSourceProperties.getUsername() : "");
-        config.setPassword(dataSourceProperties.getPassword() != null ? dataSourceProperties.getPassword() : "");
-
-        if(micrometerMetricsTracker != null) {
-            System.out.println("micrometer: NOT NULL");
-            config.setMetricRegistry(micrometerMetricsTracker);
-        }
-
-        return new HikariDataSource(config);
+    @Bean
+    @Primary
+    public PlatformTransactionManager appTransactionManager(
+            final @Qualifier("appEntityManagerFactory") LocalContainerEntityManagerFactoryBean appEntityManagerFactory) {
+        return new JpaTransactionManager(Objects.requireNonNull(appEntityManagerFactory.getObject()));
     }
 }
