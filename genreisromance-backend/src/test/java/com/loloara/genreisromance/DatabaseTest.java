@@ -2,8 +2,6 @@ package com.loloara.genreisromance;
 
 import com.loloara.genreisromance.model.User;
 import com.loloara.genreisromance.repository.UserRepository;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
