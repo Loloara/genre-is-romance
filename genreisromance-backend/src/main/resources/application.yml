@@ -1,5 +1,9 @@
-application:
+app:
  datasource:
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/genreisromance?serverTimezone=Asia/Seoul&userUnicode=true&characterEncoding=utf-8
+  username: root
+  password: password
   cachePrepStmts: true
   prepStmtCacheSize: 250
   prepStmtCacheSqlLimit: 2048
@@ -11,22 +15,24 @@ application:
   elideSetAutoCommits: true
   maintainTimeStats: false
 
+  hikari:
+   maximum-pool-size: 20
+
 server:
  port: 80
 
 spring:
- datasource:
-  driver-class-name: com.mysql.cj.jdbc.Driver
-  username: root
-  password: password
-  hikari:
-   maximum-pool-size: 20
+ jpa:
+  hibernate:
+   ddl-auto: update
+   format_sql: true
+  generate-ddl: true
+  show-sql: true
+  database: mysql
 
 ---
 spring:
  profiles: development
- datasource:
-  url: jdbc:mysql://localhost:3306/genreisromance?serverTimezone=Asia/Seoul&userUnicode=true&characterEncoding=utf-8
 
 logging:
  level:
@@ -47,8 +53,6 @@ logging:
 ---
 spring:
  profiles: test
- datasource:
-  url: jdbc:mysql://localhost:3306/genreisromance?serverTimezone=Asia/Seoul&userUnicode=true&characterEncoding=utf-8
 
 server:
  ssl:
