@@ -51,7 +51,7 @@ public class DatabaseTest {
 
     @Test
     public void userSaveTest() {
-        userRepository.save(new User(1L, "loloara", "Lucas"));
+        userRepository.save(User.builder().id(1L).uid("loloara").userName("Lucas").build());
         List<User> users = (List<User>) userRepository.findAll();
 
         assertEquals(users.size(), 1);
