@@ -1,0 +1,16 @@
+// Styling for the footer
+.footer {
+  height: 5rem;
+  
+  // 내부 내용 중앙 정렬
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; // 위에서 아래로
+
+  .content {
+    font-size: 14px;
+    margin-bottom: 0;
+    text-align: center;
+  }
+}
