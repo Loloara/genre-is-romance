@@ -1,1 +1,11 @@
-//@import '~bootstrap/scss/bootstrap';
+@charset "utf-8";
+@import "styles/lib/common.scss";
+
+body {
+    background:#000;
+}
+
+@media all and (max-width:350px){
+	.recent .con {width:calc(100% - 40px);}
+	.ticket {margin-top:50px;}
+}
