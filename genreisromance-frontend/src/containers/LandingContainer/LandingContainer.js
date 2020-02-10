@@ -1,13 +1,14 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import Landing from 'components/Landing'
 
 class LandingContainer extends Component {
 
   render() {
     return (
-      <div>
-          I'm LandingContainer
-      </div>
+      <Fragment>
+        {<Landing />}
+      </Fragment>
     );
   }
 }
