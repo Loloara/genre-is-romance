@@ -9,9 +9,7 @@ const cx = classNames.bind(styles);
 const PageTemplate = ({ header, children }) => {
   return (
     <div className={cx('page-template')}>
-      <header>
-        {header}
-      </header>
+      {header}
       <main>
         <Container>
           {children}
