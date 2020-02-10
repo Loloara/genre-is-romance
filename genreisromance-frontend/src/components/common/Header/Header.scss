@@ -1,5 +1,19 @@
 @import "styles/base.scss";
 
 .header {
+    position:absolute; 
+    z-index:999; 
+    top:30px; 
+    left:0;
+    width:100%;
     
+    .content {
+        display:block; 
+        width:254px; 
+        height:19px; 
+        margin:0 auto; 
+        text-indent:-9999px; 
+        background:url(../../../images/ico_logo.png) no-repeat 0 0; 
+        background-size:254px;
+    }
 }
