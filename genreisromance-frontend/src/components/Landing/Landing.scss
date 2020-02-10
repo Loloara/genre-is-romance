@@ -1,0 +1,137 @@
+.Landing {
+    padding-top: 100%;
+    background: url(../../images/bg_top.jpg) no-repeat left -50px;
+    background-size: 100%;
+
+    h2 {
+        position: absolute;
+        z-index: -1;
+        left: -9999px;
+        width: 0px;
+        height: 0px;
+        clip: rect(0,0,0,0);
+    }
+    
+    .sub {
+        width: 199px;
+        height: 14px;
+        margin: 0 auto;
+        text-indent: -9999px;
+        background: url(../../images/txt_poster_under.png) no-repeat center top; 
+        background-size: 199px;
+    }
+
+    .go_btn {
+        display: block; 
+        margin: 29px auto 0; 
+        width: 270px; height: 83px; 
+        text-indent: -9999px; 
+        background: url(../../images/go_btn.png) no-repeat center top;
+        background-size: 270px;
+    }
+
+    .go_btn:hover,
+    .go_btn:active {
+        background-image: url(../../images/go_btn_ov.png);
+    }
+
+    .your {
+        width: 192px;
+        height: 23px;
+        margin: 70px auto 96px;
+        text-indent: -9999px;
+        background: url(../..//images/txt_your.png) no-repeat center top;
+        background-size: 191px;
+    }
+    
+    .recent {
+        h3 {
+            width: 247px;
+            height: 106px;
+            margin: 0 auto 48.6px;
+            text-indent: -9999px;
+            background: url(../../images/txt_recent.png) no-repeat center top;
+            background-size: 247px;
+        }
+
+        .con {
+            width: 333.33px;
+            max-width: 100%;
+            height: 403.33px;
+            margin: 0 auto;
+            text-indent: -9999px;
+            background: url(../../images/txt_recent_con.png) no-repeat center top;
+            background-size: 100%;
+        }
+    }
+
+    .ticket {
+        margin-top: 100px; 
+        padding-bottom: 172px; 
+        color: #fff; 
+        text-align: center;
+
+        h3 {
+            width: 202px;
+            height: 102px;
+            margin: 0 auto 50px;
+            text-indent: -9999px;
+            background: url(../../images/txt_ticket.png) no-repeat center top;
+            background-size: 201px;
+        }
+
+        strong {
+            display: block; 
+            margin: 35px 0 20px; 
+            font-size: 18px; 
+            font-weight: 500; 
+            color: #f6215d; 
+            line-height: 1;
+        }
+
+        p {
+            font-weight: 100; 
+            line-height: 1.5;
+
+            em {
+                font-weight: 500;
+            }
+
+            span {
+                display: block; 
+                margin-top: 10px; 
+                font-size: 13px;
+            }
+        }
+        
+        .sm {
+            margin-top: 40px; 
+            font-size: 12.5px; 
+            color: #b4b2b2; 
+            line-height: 1.9;
+        }
+    }
+
+    .fix_btn {
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        bottom: -150px;
+        width: 100%;
+        height: 78px;
+        transition: all .5s ease-in-out;
+
+        .show {
+            bottom: 0px;
+        }
+
+        a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-indent: -9999px;
+            background: #f6215d url(../../images/txt_btn.jpg) no-repeat center;
+            background-size: 269px;
+        }
+    }
+}
