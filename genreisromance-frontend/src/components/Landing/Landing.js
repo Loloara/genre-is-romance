@@ -70,8 +70,8 @@ class Landing extends Component {
                     <p>FREE</p>
                     <strong>데이트 비용</strong>
                     <p>
-                        영화티켓 1만원 + 서비스이용료 1만원<br />
-                        + 보증금 1만원 = <em>총 3만원</em><br />
+                        영화티켓 1만원 + 서비스이용료 2만원<br />
+                        + 보증금 1만원 = <em>총 4만원</em><br />
                         <span>(티켓 값 따라 변동가능)</span>
                     </p>
                     <p className={cx('sm')}>
