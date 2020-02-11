@@ -23,7 +23,7 @@ class Landing extends Component {
 
     listenToScroll = () => {
         const yourPosition = this.instance.getBoundingClientRect().top;
-        const isChanged = (yourPosition <= 20 ? true : false) ^ this.state.showFixBtn;
+        const isChanged = (yourPosition <= 100 ? true : false) ^ this.state.showFixBtn;
 
         if(isChanged){
             this.setState({
