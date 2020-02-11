@@ -6,6 +6,32 @@ const cx = classNames.bind(styles);
 
 class Landing extends Component {
     
+    constructor(props) {
+        super(props);
+        this.state = {
+            showFixBtn: false,
+        };
+    }
+
+    componentDidMount() {
+        window.addEventListener('scroll', this.listenToScroll);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.listenToScroll);
+    }
+
+    listenToScroll = () => {
+        const yourPosition = this.instance.getBoundingClientRect().top;
+        const isChanged = (yourPosition <= 20 ? true : false) ^ this.state.showFixBtn;
+
+        if(isChanged){
+            this.setState({
+                showFixBtn: !this.state.showFixBtn
+            });
+        } 
+    }
+
     render() {
         return(
             <div className={cx('Landing')}>
@@ -15,7 +41,7 @@ class Landing extends Component {
                     <a href="http://naver.me/G8ZwdNkW" className={cx('go_btn')} target="_blank" rel="noopener noreferrer" title="새창">지금 예매하기</a>
                 </div>
 
-                <div className={cx('your')}>당신의 장르는 무엇인가요?</div>
+                <div className={cx('your')} ref={(el) => this.instance = el}>당신의 장르는 무엇인가요?</div>
 
                 <div className={cx('recent')}>
 				    <h3>최근에 어떤 영화 보셨어요?</h3>
@@ -54,8 +80,8 @@ class Landing extends Component {
                     </p>
                 </div>
 
-                <div className={cx('fix_btn')}>
-			        <a href="http://naver.me/G8ZwdNkW" target="_blank" rel="noopener noreferrer" title="새창">너와 나의 설레는 첫 만남, 지금 예매하기</a>
+                <div className={cx('fix_btn')} style={{bottom: this.state.showFixBtn ? '0px' : '-150px'}}>
+                    <a href="http://naver.me/G8ZwdNkW" target="_blank" rel="noopener noreferrer" title="새창">너와 나의 설레는 첫 만남, 지금 예매하기</a>
 		        </div>
             </div>
         );
