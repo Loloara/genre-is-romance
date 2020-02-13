@@ -19,7 +19,7 @@ app:
    maximum-pool-size: 20
 
 server:
- port: 80
+ port: 5959
 
 spring:
  jpa:
