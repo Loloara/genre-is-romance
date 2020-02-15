@@ -15,11 +15,12 @@ import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
 public class Letter extends BaseModel {
     /*
-        User의 id와 매핑
+        mapping with id of User
      */
 
     @Id
     @NotNull
+    @Column(name = "letter_id")
     private Long id;
 
     @Size(min = 0, max = 100)
@@ -42,7 +43,7 @@ public class Letter extends BaseModel {
 
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = CASCADE)
-    @JoinColumn
+    @JoinColumn(name = "user_id")
     @NotNull
     private User user;
 }
