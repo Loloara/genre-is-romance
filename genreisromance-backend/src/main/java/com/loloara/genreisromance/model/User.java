@@ -2,7 +2,6 @@ package com.loloara.genreisromance.model;
 
 import com.loloara.genreisromance.common.util.Gender;
 import com.loloara.genreisromance.common.util.ProcessType;
-import com.sun.istack.Nullable;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,11 +14,8 @@ import java.util.Date;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
-@Getter
-@ToString
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor(access = PROTECTED)
+@Getter @Setter @ToString @Builder
+@AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
 public class User extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,13 +23,14 @@ public class User extends BaseModel {
 
     @Email
     @Size(min = 5, max = 30)
-    @NotNull
+    @Column(length = 30, unique = true, nullable = false)
     private String email;
 
-    @NotNull
+    @Size(min = 2, max = 5)
+    @Column(name = "user_name", length = 5, nullable = false)
     private String userName;
 
-    @Nullable
+    @NotNull
     private Integer height;
 
     @NotNull
@@ -43,22 +40,21 @@ public class User extends BaseModel {
     @NotNull
     private Gender gender;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    private ProcessType process;
+    @Temporal(TemporalType.DATE)
+    @Column(name="birth_date", nullable = false)
+    private Date birthDate;
 
     @Transient
     private Integer age;
 
-    @Temporal(TemporalType.DATE)
-    @NotNull
-    private Date birthDate;
+    @Enumerated(EnumType.STRING)
+    private ProcessType process = ProcessType.찾는중;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @NotNull
+    @Column(name = "created_date")
     private Date createdDate = new Date();
 
     @Temporal(TemporalType.TIMESTAMP)
-    @NotNull
+    @Column(name = "last_updated_date")
     private Date lastUpdatedDate = new Date();
 }
