@@ -7,3 +7,7 @@ public enum ProcessType {
     결제요청,
     소개성사
 }
+
+    /* ToDo
+        add ProcessType for admin ex) ManToWoman, WomanToMan
+    */
