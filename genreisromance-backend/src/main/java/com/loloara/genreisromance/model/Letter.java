@@ -2,12 +2,14 @@ package com.loloara.genreisromance.model;
 
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import static lombok.AccessLevel.PROTECTED;
 import static org.hibernate.annotations.OnDeleteAction.CASCADE;
@@ -41,17 +43,18 @@ public class Letter extends BaseModel {
     @Column(name = "image_path", length = 18, nullable = false)
     private String imagePath;
 
+    @NotNull
     private Boolean pass = false;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_date")
-    private Date createdDate = new Date();
+    @CreatedDate
+    @Column(name = "created_date", nullable = false)
+    private LocalDateTime createdDate = LocalDateTime.now();
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "last_updated_date")
-    private Date lastUpdatedDate = new Date();
+    @LastModifiedDate
+    @Column(name = "last_modified_date", nullable = false)
+    private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = CASCADE)
     @JoinColumn(name = "user_id")
     @NotNull
