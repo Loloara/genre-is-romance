@@ -25,9 +25,9 @@ public class LetterService {
                     .orElseThrow(IllegalArgumentException::new);
     }
 
-    public Letter findByUserId (User user) {
-        log.info("Find letter by userId : {}", user.getId());
-        return letterRepository.findByUser(user)
+    public Letter findByUserId (Long userId) {
+        log.info("Find letter by userId : {}", userId);
+        return letterRepository.findByUserId(userId)
                 .orElseThrow(IllegalArgumentException::new);
     }
 
@@ -35,7 +35,7 @@ public class LetterService {
         return letterRepository.existsById(letterId);
     }
 
-    public boolean existsByUserId (User user) {
-        return letterRepository.existsByUser(user);
+    public boolean existsByUserId (Long userId) {
+        return letterRepository.existsByUserId(userId);
     }
 }
