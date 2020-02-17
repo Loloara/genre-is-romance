@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import java.util.Date;
+
 import static lombok.AccessLevel.PROTECTED;
 import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 
@@ -40,6 +42,14 @@ public class Letter extends BaseModel {
     private String imagePath;
 
     private Boolean pass = false;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_date")
+    private Date createdDate = new Date();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "last_updated_date")
+    private Date lastUpdatedDate = new Date();
 
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = CASCADE)
