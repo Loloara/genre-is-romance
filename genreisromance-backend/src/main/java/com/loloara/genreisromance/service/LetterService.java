@@ -1,7 +1,6 @@
 package com.loloara.genreisromance.service;
 
 import com.loloara.genreisromance.model.Letter;
-import com.loloara.genreisromance.model.User;
 import com.loloara.genreisromance.repository.LetterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
