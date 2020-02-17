@@ -16,7 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     Optional<User> findByPhone(String phone);
 
-    @Query("select u.id from user u where u.process = :process")
+    @Query("select user_id from user where process = :process order by last_modified_date asc limit 100;")
     List<Long> findAllByProcess(@Param("process") ProcessType process);
 
     boolean existsByEmail(String email);
