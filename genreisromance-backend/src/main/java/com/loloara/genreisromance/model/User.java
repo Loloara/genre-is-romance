@@ -3,9 +3,6 @@ package com.loloara.genreisromance.model;
 import com.loloara.genreisromance.common.util.Gender;
 import com.loloara.genreisromance.common.util.ProcessType;
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -13,19 +10,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import static lombok.AccessLevel.PROTECTED;
-import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 
 @Entity
-@Getter @Setter @ToString @Builder
+@Getter @ToString @Builder
 @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
-public class User extends BaseModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long id;
+public class User extends BaseEntity {
 
     @Email
     @Size(min = 5, max = 30)
@@ -52,17 +43,10 @@ public class User extends BaseModel {
     @Transient
     private Integer age;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @NotNull
-    private ProcessType process = ProcessType.찾는중;
-
-    @CreatedDate
-    @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate = LocalDateTime.now();
-
-    @LastModifiedDate
-    @Column(name = "last_modified_date", nullable = false)
-    private LocalDateTime lastModifiedDate = LocalDateTime.now();
+    private ProcessType process = ProcessType.SEARCHING;
 
     public Integer getAge() {
         return LocalDate.now().getYear() - birthDate.getYear() + 1;
