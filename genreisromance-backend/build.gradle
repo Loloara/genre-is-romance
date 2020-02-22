@@ -49,6 +49,10 @@ dependencies {
 	}
 	testImplementation "org.springframework.security:spring-security-test"
 	testImplementation "junit:junit:4.12"
+
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	compile group: 'io.springfox', name: 'springfox-spring-web', version: '2.9.2'
 }
 
 test {
