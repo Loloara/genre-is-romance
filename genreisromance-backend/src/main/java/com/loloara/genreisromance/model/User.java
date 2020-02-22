@@ -1,5 +1,6 @@
 package com.loloara.genreisromance.model;
 
+import com.loloara.genreisromance.common.annotation.Phone;
 import com.loloara.genreisromance.common.util.Gender;
 import com.loloara.genreisromance.common.util.ProcessType;
 import lombok.*;
@@ -30,7 +31,9 @@ public class User extends BaseEntity {
     @NotNull
     private Integer height;
 
-    @NotNull
+    @Phone
+    @Size(min = 11, max = 13)
+    @Column(length = 13, nullable = false)
     private String phone;
 
     @Enumerated(EnumType.STRING)
