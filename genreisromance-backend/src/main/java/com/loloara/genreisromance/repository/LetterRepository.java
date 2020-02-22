@@ -10,9 +10,9 @@ import java.util.Optional;
 
 @Repository
 public interface LetterRepository extends JpaRepository<Letter, Long> {
-    @Query("select l from letter l where l.user = :userId;")
+    @Query("select l from Letter l where l.user_id = :userId")
     Optional<Letter> findByUserId(@Param("userId") Long userId);
 
-    @Query("select case when count(l) > 0 then true else false end from letter l where l.user = :userId;")
+    @Query("select case when count(l) > 0 then true else false end from Letter l where l.user_id = :userId")
     boolean existsByUserId(@Param("userId") Long userId);
 }
