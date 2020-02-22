@@ -10,13 +10,17 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/* ToDo
+    add order by and limit for findAllByProcess query
+ */
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findById(Long id);
     Optional<User> findByEmail(String email);
     Optional<User> findByPhone(String phone);
 
-    @Query("select user_id from user where process = :process order by last_modified_date asc limit 100;")
+    @Query("select id from User where process = :process")
     List<Long> findAllByProcess(@Param("process") ProcessType process);
 
     boolean existsByEmail(String email);
