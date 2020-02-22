@@ -7,17 +7,10 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.OrRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(
-            new AntPathRequestMatcher("/api/**")
-    );
 
     @Override
     public void configure(WebSecurity web) {
@@ -32,7 +25,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .requestMatchers(PROTECTED_URLS)
+                .antMatchers("/api/user", "/admin/user", "/error**").permitAll()
+                .antMatchers("/api/**").access("ROLE_USER")
+                .antMatchers("/api/**").access("ROLE_ADMIN")
+                .antMatchers("/admin/**").access("ROLE_ADMIN")
+                .antMatchers("/**")
                 .authenticated()
                 .and()
                 .csrf().disable()
