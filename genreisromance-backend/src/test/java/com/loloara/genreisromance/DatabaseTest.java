@@ -22,7 +22,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class DatabaseTest {
 
@@ -82,18 +82,22 @@ public class DatabaseTest {
         );
         List<Letter> letters = letterService.findAll();
 
-        int index = 0;
         System.out.println("===================USER SAVE TEST===================");
-        for(User user : users) {
-            System.out.println(index++ + " : " + user.toString());
-        }
+        User user = users.get(users.size()-1);
+        System.out.println("user : " + user.toString());
 
-        index = 0;
         System.out.println("===================LETTER SAVE TEST===================");
-        Letter letter = letterService.findByIdEager(letters.get(0).getId());
-        System.out.println(index++ + " : " + letter.toString());
+        Letter letter = letterService.findByIdEager(letters.get(letters.size()-1).getId());
+        System.out.println("letter : " + letter.toString());
 
         assertEquals(users.size(), 1);
         assertEquals(letters.size(), 1);
+
+        letterService.delete(letter);
+
+        users = userService.findAll();
+        letters = letterService.findAll();
+        assertEquals(users.size(), 0);
+        assertEquals(letters.size(), 0);
     }
 }
