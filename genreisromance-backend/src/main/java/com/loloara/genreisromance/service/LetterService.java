@@ -17,7 +17,6 @@ public class LetterService {
         this.letterRepository = letterRepository;
     }
 
-    @Transactional
     public Letter save (Letter letter) {
         return letterRepository.save(letter);
     }
