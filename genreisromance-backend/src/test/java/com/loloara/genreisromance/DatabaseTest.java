@@ -1,8 +1,10 @@
 package com.loloara.genreisromance;
 
 import com.loloara.genreisromance.common.util.Gender;
+import com.loloara.genreisromance.model.Letter;
 import com.loloara.genreisromance.model.User;
-import com.loloara.genreisromance.repository.UserRepository;
+import com.loloara.genreisromance.service.LetterService;
+import com.loloara.genreisromance.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,10 @@ public class DatabaseTest {
     DataSourceProperties dataSourceProperties;
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
+
+    @Autowired
+    LetterService letterService;
 
     @Test
     public void dataSourcePropertiesTest() {
@@ -52,8 +57,8 @@ public class DatabaseTest {
     }
 
     @Test
-    public void userSaveTest() {
-        userRepository.save(
+    public void userLetterSaveTest() {
+        userService.save(
                 User.builder()
                         .userName("Lucas")
                         .age(27)
@@ -64,14 +69,31 @@ public class DatabaseTest {
                         .phone("01012345678")
                         .build()
         );
-        List<User> users = (List<User>) userRepository.findAll();
+        List<User> users = userService.findAll();
+
+        letterService.save(
+                Letter.builder()
+                        .user_id(users.get(0))
+                        .Q1("Q1 TEST")
+                        .Q2("Q2 TEST")
+                        .Q3("Q3 TEST")
+                        .imagePath("img_path_min_15")
+                        .build()
+        );
+        List<Letter> letters = letterService.findAll();
 
         int index = 0;
         System.out.println("===================USER SAVE TEST===================");
         for(User user : users) {
-            System.out.println(index + " : " + user.toString());
+            System.out.println(index++ + " : " + user.toString());
         }
 
+        index = 0;
+        System.out.println("===================LETTER SAVE TEST===================");
+        Letter letter = letterService.findByIdEager(letters.get(0).getId());
+        System.out.println(index++ + " : " + letter.toString());
+
         assertEquals(users.size(), 1);
+        assertEquals(letters.size(), 1);
     }
 }
