@@ -23,9 +23,12 @@ server:
 
 spring:
  jpa:
+  properties:
+   hibernate:
+    format_sql: true
+    default_batch_fetch_size: 30
   hibernate:
    ddl-auto: update
-   format_sql: true
   generate-ddl: true
   show-sql: true
   database: mysql
