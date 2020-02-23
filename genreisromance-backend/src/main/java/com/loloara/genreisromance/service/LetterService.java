@@ -4,7 +4,6 @@ import com.loloara.genreisromance.model.Letter;
 import com.loloara.genreisromance.repository.LetterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -49,5 +48,10 @@ public class LetterService {
 
     public boolean existsByUserId (Long userId) {
         return letterRepository.existsByUserId(userId);
+    }
+
+    public void delete(Letter letter) {
+        log.info("Delete letter by object Letter : {}", letter.getId());
+        letterRepository.delete(letter);
     }
 }

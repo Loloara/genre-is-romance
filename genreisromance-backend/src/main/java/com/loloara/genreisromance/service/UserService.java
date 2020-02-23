@@ -61,4 +61,9 @@ public class UserService {
     public boolean existsByPhone(String phone) {
         return userRepository.existsByPhone(phone);
     }
+
+    public void delete(User user) {
+        log.info("Delete user by object User : {}", user.getId());
+        userRepository.delete(user);
+    }
 }
