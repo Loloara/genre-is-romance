@@ -4,6 +4,9 @@ import com.loloara.genreisromance.model.Letter;
 import com.loloara.genreisromance.repository.LetterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -14,6 +17,7 @@ public class LetterService {
         this.letterRepository = letterRepository;
     }
 
+    @Transactional
     public Letter save (Letter letter) {
         return letterRepository.save(letter);
     }
@@ -28,6 +32,10 @@ public class LetterService {
         log.info("Find letter by userId : {}", userId);
         return letterRepository.findByUserId(userId)
                 .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public List<Letter> findAll () {
+        return letterRepository.findAll();
     }
 
     public boolean existsById (Long letterId) {
