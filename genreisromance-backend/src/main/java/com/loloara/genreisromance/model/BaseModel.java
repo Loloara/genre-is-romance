@@ -13,7 +13,7 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonAutoDetect
-public class BaseModel implements Serializable {
+public abstract class BaseModel implements Serializable {
 
     @Override
     public boolean equals(Object o) {
