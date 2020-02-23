@@ -41,7 +41,6 @@ public class Letter extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY, optional = false,
             cascade = {
                     CascadeType.MERGE,
-                    CascadeType.PERSIST,
                     CascadeType.REMOVE
             })
     @JoinColumn(name = "user_id")
