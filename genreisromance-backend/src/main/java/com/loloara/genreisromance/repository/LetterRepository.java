@@ -10,6 +10,9 @@ import java.util.Optional;
 
 @Repository
 public interface LetterRepository extends JpaRepository<Letter, Long> {
+    @Query("select l from Letter l join fetch l.user_id where l.id = :id")
+    Optional<Letter> findByIdEager(@Param("id") Long id);
+
     @Query("select l from Letter l where l.user_id = :userId")
     Optional<Letter> findByUserId(@Param("userId") Long userId);
 

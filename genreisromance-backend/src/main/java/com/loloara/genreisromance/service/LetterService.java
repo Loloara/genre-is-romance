@@ -27,6 +27,12 @@ public class LetterService {
                     .orElseThrow(IllegalArgumentException::new);
     }
 
+    public Letter findByIdEager (Long letterId) {
+        log.info("Find letter Eager by letterId : {}", letterId);
+        return letterRepository.findByIdEager(letterId)
+                    .orElseThrow(IllegalArgumentException::new);
+    }
+
     public Letter findByUserId (Long userId) {
         log.info("Find letter by userId : {}", userId);
         return letterRepository.findByUserId(userId)
