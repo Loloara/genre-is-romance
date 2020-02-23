@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
-@Getter @ToString @Builder
+@Getter @Builder
 @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
 public class User extends BaseEntity {
 

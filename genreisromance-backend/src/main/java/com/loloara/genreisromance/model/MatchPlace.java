@@ -7,7 +7,7 @@ import javax.persistence.*;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
-@Getter @ToString @Builder
+@Getter @Builder
 @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
 public class MatchPlace extends BaseEntity {
 

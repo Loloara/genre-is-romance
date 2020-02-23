@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
-@Getter @ToString @Builder
+@Getter @Builder
 @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
 public class Letter extends BaseEntity {
     /*

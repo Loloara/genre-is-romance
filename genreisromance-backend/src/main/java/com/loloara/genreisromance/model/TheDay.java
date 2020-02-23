@@ -11,7 +11,7 @@ import java.util.Set;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
-@Getter @ToString @Builder
+@Getter @Builder
 @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
 public class TheDay extends BaseEntity {
 
