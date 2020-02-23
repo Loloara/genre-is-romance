@@ -50,6 +50,10 @@ public class UserService {
         return userRepository.findAllByProcess(process);
     }
 
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
