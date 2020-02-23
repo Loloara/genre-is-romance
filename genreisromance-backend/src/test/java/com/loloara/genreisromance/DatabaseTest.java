@@ -1,5 +1,6 @@
 package com.loloara.genreisromance;
 
+import com.loloara.genreisromance.common.util.Gender;
 import com.loloara.genreisromance.model.User;
 import com.loloara.genreisromance.repository.UserRepository;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.sql.DataSource;
 
 import java.sql.Connection;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -48,13 +50,28 @@ public class DatabaseTest {
         assertEquals(jdbcUrl, dataSourceProperties.getUrl());
         assertEquals(username, dataSourceProperties.getUsername());
     }
-/*
+
     @Test
     public void userSaveTest() {
-        userRepository.save(User.builder()..id(1L).uid("loloara").userName("Lucas").build());
+        userRepository.save(
+                User.builder()
+                        .userName("Lucas")
+                        .age(27)
+                        .birthDate(LocalDate.of(1994,4,10))
+                        .email("test@gmail.com")
+                        .gender(Gender.MALE)
+                        .height(173)
+                        .phone("01012345678")
+                        .build()
+        );
         List<User> users = (List<User>) userRepository.findAll();
+
+        int index = 0;
+        System.out.println("===================USER SAVE TEST===================");
+        for(User user : users) {
+            System.out.println(index + " : " + user.toString());
+        }
 
         assertEquals(users.size(), 1);
     }
-*/
 }
