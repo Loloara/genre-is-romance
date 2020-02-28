@@ -46,4 +46,9 @@ public class MatchInfoService {
     public boolean existsByUserId (Long userId) {
         return matchInfoRepository.existsByUserId(userId);
     }
+
+    public void delete(MatchInfo matchInfo) {
+        log.info("Delete matchInfo by object MatchInfo : {}", matchInfo.getId());
+        matchInfoRepository.delete(matchInfo);
+    }
 }
