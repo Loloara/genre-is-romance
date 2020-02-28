@@ -20,10 +20,6 @@ public class Place extends BaseEntity {
     @OneToMany(mappedBy = "place", fetch = FetchType.LAZY)
     private Set<MatchPlace> matchPlaces = new HashSet<>();
 
-    public void addMatchPlace(MatchPlace matchPlace) {
-        matchPlaces.add(matchPlace);
-    }
-
     public boolean equals(Object o) {
         if (this == o) {
             return true;

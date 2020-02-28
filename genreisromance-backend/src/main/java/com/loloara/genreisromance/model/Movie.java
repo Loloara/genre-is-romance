@@ -20,10 +20,6 @@ public class Movie extends BaseEntity {
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
     private Set<MatchMovie> matchMovies = new HashSet<>();
 
-    public void addMatchMovie(MatchMovie matchMovie) {
-        matchMovies.add(matchMovie);
-    }
-
     public boolean equals(Object o) {
         if (this == o) {
             return true;

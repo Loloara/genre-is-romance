@@ -26,10 +26,6 @@ public class TheDay extends BaseEntity {
     @OneToMany(mappedBy = "theDay", fetch = FetchType.LAZY)
     private Set<MatchTheDay> matchTheDays = new HashSet<>();
 
-    public void addMatchTheDay(MatchTheDay matchTheDay) {
-        matchTheDays.add(matchTheDay);
-    }
-
     public boolean equals(Object o) {
         if (this == o) {
             return true;

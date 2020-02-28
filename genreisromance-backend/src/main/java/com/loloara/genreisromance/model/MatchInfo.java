@@ -68,18 +68,6 @@ public class MatchInfo extends BaseEntity {
     @JoinColumn(name = "user_female_id", referencedColumnName = "id")
     private User userFemaleId;
 
-    public void addMovie(MatchMovie matchMovie) {
-        movies.add(matchMovie);
-    }
-
-    public void addPlace(MatchPlace matchPlace) {
-        places.add(matchPlace);
-    }
-
-    public void addTheDay(MatchTheDay matchTheDay) {
-        the_days.add(matchTheDay);
-    }
-
     public boolean equals(Object o) {
         if (this == o) {
             return true;
