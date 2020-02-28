@@ -4,18 +4,45 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import static lombok.AccessLevel.PROTECTED;
 
-@Entity
-@Getter @Builder
+@Entity @Getter @Builder
 @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
 public class Place extends BaseEntity {
 
     @Column(name = "place_name", nullable = false)
     private String placeName;
 
+    @Builder.Default
     @OneToMany(mappedBy = "place", fetch = FetchType.LAZY)
-    private Set<MatchPlace> matchers;
+    private Set<MatchPlace> matchPlaces = new HashSet<>();
+
+    public void addMatchPlace(MatchPlace matchPlace) {
+        matchPlaces.add(matchPlace);
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+        final Place other = (Place) o;
+        return this.id.equals(other.id);
+    }
+
+    public int hashCode() {
+        if(id != null) {
+            return id.hashCode();
+        } else {
+            return super.hashCode();
+        }
+    }
 }
