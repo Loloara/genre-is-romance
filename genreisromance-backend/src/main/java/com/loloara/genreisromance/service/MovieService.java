@@ -25,6 +25,10 @@ public class MovieService {
         movieRepository.saveAll(movies);
     }
 
+    public List<Movie> findFetchAll() {
+        return movieRepository.findFetchAll();
+    }
+
     public Movie findByIdFetchAll (Long movieId) {
         log.info("Find movie with all fetch by movieId : {}", movieId);
         return movieRepository.findByIdFetchAll(movieId)
@@ -35,5 +39,10 @@ public class MovieService {
         log.info("Find movie by movieId : {}", movieId);
         return movieRepository.findById(movieId)
                     .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public void delete(Movie movie) {
+        log.info("Delete movie by object Movie : {}", movie.getId());
+        movieRepository.delete(movie);
     }
 }

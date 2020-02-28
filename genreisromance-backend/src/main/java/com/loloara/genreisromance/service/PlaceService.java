@@ -25,6 +25,10 @@ public class PlaceService {
         placeRepository.saveAll(places);
     }
 
+    public List<Place> findFetchAll() {
+        return placeRepository.findFetchAll();
+    }
+
     public Place findByIdFetchAll (Long placeId) {
         log.info("Find place with all fetch by placeId : {}", placeId);
         return placeRepository.findByIdFetchAll(placeId)
@@ -35,5 +39,10 @@ public class PlaceService {
         log.info("Find place by placeId : {}", placeId);
         return placeRepository.findById(placeId)
                 .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public void delete(Place place) {
+        log.info("Delete place by object Place : {}", place.getId());
+        placeRepository.delete(place);
     }
 }

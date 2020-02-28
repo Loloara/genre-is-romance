@@ -25,7 +25,11 @@ public class TheDayService {
         theDayRepository.saveAll(theDays);
     }
 
-    public TheDay findByIdFetchAll (Long theDayId) {
+    public List<TheDay> findFetchAll() {
+        return theDayRepository.findFetchAll();
+    }
+
+    public TheDay findByIdFetchAll(Long theDayId) {
         log.info("Find theDay with all fetch by theDayId : {}", theDayId);
         return theDayRepository.findByIdFetchAll(theDayId)
                 .orElseThrow(IllegalArgumentException::new);
@@ -35,5 +39,10 @@ public class TheDayService {
         log.info("Find theDay by theDayId : {}", theDayId);
         return theDayRepository.findById(theDayId)
                 .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public void delete(TheDay theDay) {
+        log.info("Delete theDay by object TheDay : {}", theDay.getId());
+        theDayRepository.delete(theDay);
     }
 }
