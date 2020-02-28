@@ -17,8 +17,19 @@ public class Place extends BaseEntity {
     private String placeName;
 
     @Builder.Default
-    @OneToMany(mappedBy = "place", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "place", fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.REMOVE
+            })
     private Set<MatchPlace> matchPlaces = new HashSet<>();
+
+    @PreRemove
+    public void preRemove() {
+        for(MatchPlace mp : matchPlaces) {
+            mp.setNullPlace();
+        }
+    }
 
     public boolean equals(Object o) {
         if (this == o) {

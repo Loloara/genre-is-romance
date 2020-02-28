@@ -17,8 +17,19 @@ public class Movie extends BaseEntity {
     private String movieTitle;
 
     @Builder.Default
-    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.REMOVE
+            })
     private Set<MatchMovie> matchMovies = new HashSet<>();
+
+    @PreRemove
+    public void preRemove() {
+        for(MatchMovie mv : matchMovies) {
+            mv.setNullMovie();
+        }
+    }
 
     public boolean equals(Object o) {
         if (this == o) {

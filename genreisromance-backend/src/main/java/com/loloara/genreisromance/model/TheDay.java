@@ -23,8 +23,19 @@ public class TheDay extends BaseEntity {
     private DayTime dayTime;
 
     @Builder.Default
-    @OneToMany(mappedBy = "theDay", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "theDay", fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.REMOVE
+            })
     private Set<MatchTheDay> matchTheDays = new HashSet<>();
+
+    @PreRemove
+    public void preRemove() {
+        for(MatchTheDay matchTheDay : matchTheDays) {
+            matchTheDay.setNullTheDay();
+        }
+    }
 
     public boolean equals(Object o) {
         if (this == o) {
