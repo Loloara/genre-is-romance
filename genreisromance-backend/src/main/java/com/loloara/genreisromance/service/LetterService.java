@@ -20,15 +20,13 @@ public class LetterService {
         return letterRepository.save(letter);
     }
 
+    public void saveAll (List<Letter> letters) {
+        letterRepository.saveAll(letters);
+    }
+
     public Letter findById (Long letterId) {
         log.info("Find letter by letterId : {}", letterId);
         return letterRepository.findById(letterId)
-                    .orElseThrow(IllegalArgumentException::new);
-    }
-
-    public Letter findByIdEager (Long letterId) {
-        log.info("Find letter Eager by letterId : {}", letterId);
-        return letterRepository.findByIdEager(letterId)
                     .orElseThrow(IllegalArgumentException::new);
     }
 
