@@ -241,5 +241,36 @@ public class DatabaseTest {
         assertEquals(matchInfo.getThe_days().size(), 3);
         assertEquals(matchInfo.getMovies().size(), 3);
         assertEquals(matchInfo.getPlaces().size(), 3);
+
+
+        /*
+            Deleting Test
+        */
+
+        matchInfoService.delete(matchInfo);
+
+        List<TheDay> theDays = theDayService.findFetchAll();
+        System.out.println("TheDays_size: " + theDays.size());
+        for(TheDay theDay : theDays) {
+            System.out.println("TheDay_id" + theDay.getId() + " : " + theDay.getMatchTheDays().size());
+            theDayService.delete(theDay);
+        }
+
+        List<Place> places = placeService.findFetchAll();
+        System.out.println("Place_size: " + places.size());
+        for(Place place : places) {
+            System.out.println("Place_id" + place.getId() + " : " + place.getMatchPlaces().size());
+            placeService.delete(place);
+        }
+
+        List<Movie> movies = movieService.findFetchAll();
+        System.out.println("movies_size: " + movies.size());
+        for(Movie movie : movies) {
+            System.out.println("Movie_id" + movie.getId() + " : " + movie.getMatchMovies().size());
+            movieService.delete(movie);
+        }
+
+        letterService.delete(letters.get(0));
+        letterService.delete(letters.get(1));
     }
 }
