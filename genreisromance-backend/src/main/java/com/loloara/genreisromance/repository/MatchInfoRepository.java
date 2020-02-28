@@ -15,9 +15,12 @@ import java.util.Optional;
 @Repository
 public interface MatchInfoRepository extends JpaRepository<MatchInfo, Long> {
 
-    @Query("select m from MatchInfo m where user_male_id = :userId or user_female_id = :userId")
+    @Query("select m from MatchInfo m join fetch m.the_days join fetch m.movies join fetch m.places where m.id = :id")
+    Optional<MatchInfo> findByIdFetchAll(@Param("id") Long id);
+
+    @Query("select m from MatchInfo m where userMaleId = :userId or user_female_id = :userId")
     Optional<MatchInfo> findByUserId(@Param("userId") Long userId);
 
-    @Query("select case when count(m) > 0 then true else false end from MatchInfo m where user_male_id = :userId or user_female_id = :userId")
+    @Query("select case when count(m) > 0 then true else false end from MatchInfo m where userMaleId = :userId or userFemaleId = :userId")
     boolean existsByUserId(@Param("userId") Long userId);
 }
