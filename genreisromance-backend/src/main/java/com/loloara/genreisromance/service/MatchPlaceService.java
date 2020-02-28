@@ -5,8 +5,6 @@ import com.loloara.genreisromance.repository.MatchPlaceRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @Slf4j
 public class MatchPlaceService {
@@ -19,10 +17,6 @@ public class MatchPlaceService {
 
     public MatchPlace save(MatchPlace matchPlace) {
         return matchPlaceRepository.save(matchPlace);
-    }
-
-    public void saveAll(List<MatchPlace> matchPlaces) {
-        matchPlaceRepository.saveAll(matchPlaces);
     }
 
     public MatchPlace findById(Long matchPlaceId) {
