@@ -1,10 +1,9 @@
 package com.loloara.genreisromance;
 
+import com.loloara.genreisromance.common.util.DayTime;
 import com.loloara.genreisromance.common.util.Gender;
-import com.loloara.genreisromance.model.Letter;
-import com.loloara.genreisromance.model.User;
-import com.loloara.genreisromance.service.LetterService;
-import com.loloara.genreisromance.service.UserService;
+import com.loloara.genreisromance.model.*;
+import com.loloara.genreisromance.service.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,11 @@ import javax.sql.DataSource;
 
 import java.sql.Connection;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -37,6 +38,27 @@ public class DatabaseTest {
 
     @Autowired
     LetterService letterService;
+
+    @Autowired
+    MatchInfoService matchInfoService;
+
+    @Autowired
+    MatchMovieService matchMovieService;
+
+    @Autowired
+    MatchPlaceService matchPlaceService;
+
+    @Autowired
+    MatchTheDayService matchTheDayService;
+
+    @Autowired
+    MovieService movieService;
+
+    @Autowired
+    PlaceService placeService;
+
+    @Autowired
+    TheDayService theDayService;
 
     @Test
     public void dataSourcePropertiesTest() {
@@ -58,10 +80,9 @@ public class DatabaseTest {
 
     @Test
     public void userLetterSaveTest() {
-        userService.save(
+        User user = userService.save(
                 User.builder()
                         .userName("Lucas")
-                        .age(27)
                         .birthDate(LocalDate.of(1994,4,10))
                         .email("test@gmail.com")
                         .gender(Gender.MALE)
@@ -69,35 +90,156 @@ public class DatabaseTest {
                         .phone("01012345678")
                         .build()
         );
-        List<User> users = userService.findAll();
 
-        letterService.save(
+        Letter letter = letterService.save(
                 Letter.builder()
-                        .user_id(users.get(0))
+                        .user_id(user)
                         .Q1("Q1 TEST")
                         .Q2("Q2 TEST")
                         .Q3("Q3 TEST")
                         .imagePath("img_path_min_15")
                         .build()
         );
-        List<Letter> letters = letterService.findAll();
 
         System.out.println("===================USER SAVE TEST===================");
-        User user = users.get(users.size()-1);
+        user = userService.findByUserId(user.getId());
         System.out.println("user : " + user.toString());
 
         System.out.println("===================LETTER SAVE TEST===================");
-        Letter letter = letterService.findByIdEager(letters.get(letters.size()-1).getId());
+        letter = letterService.findById(letter.getId());
         System.out.println("letter : " + letter.toString());
 
-        assertEquals(users.size(), 1);
-        assertEquals(letters.size(), 1);
+        boolean isSameUserId = letter.getUser_id().equals(user);
+        assertTrue(isSameUserId);
 
         letterService.delete(letter);
 
-        users = userService.findAll();
-        letters = letterService.findAll();
-        assertEquals(users.size(), 0);
-        assertEquals(letters.size(), 0);
+        assertFalse(userService.existsById(user.getId()));
+        assertFalse(letterService.existsById(letter.getId()));
+    }
+
+    @Test
+    public void userMatchTest() {
+        List<User> users = new ArrayList<>();
+        users.add(User.builder()
+                .userName("userM")
+                .birthDate(LocalDate.of(1994,4,10))
+                .email("test01@gmail.com")
+                .gender(Gender.MALE)
+                .height(173)
+                .phone("01012345678")
+                .build());
+        users.add(User.builder()
+                .userName("userF")
+                .phone("01043218765")
+                .height(166)
+                .gender(Gender.FEMALE)
+                .email("test02@gmail.com")
+                .birthDate(LocalDate.of(1994,3,16))
+                .build());
+        userService.saveAll(users);
+
+
+        List<Letter> letters = new ArrayList<>();
+        letters.add(Letter.builder()
+                .user_id(users.get(users.size()-2))
+                .imagePath("img_path_min_15")
+                .Q1("Q1 for Male")
+                .Q2("Q2 for Male")
+                .Q3("Q3 for Male")
+                .build());
+        letters.add(Letter.builder()
+                .user_id(users.get(users.size()-1))
+                .imagePath("img_path_min_15")
+                .Q1("Q1 for Female")
+                .Q2("Q2 for Female")
+                .Q3("Q3 for Female")
+                .build());
+        letterService.saveAll(letters);
+
+        User userM = userService.findByEmail("test01@gmail.com");
+        User userW = userService.findByEmail("test02@gmail.com");
+        MatchInfo matchInfo = matchInfoService.save(
+                MatchInfo.builder()
+                        .userMaleId(userM)
+                        .userFemaleId(userW)
+                        .build()
+        );
+
+        for(int i=1;i<=3;i++){
+            Movie movie = movieService.save(
+                    Movie.builder()
+                            .movieTitle("movie_0" + i)
+                            .build());
+            MatchMovie matchMovie = matchMovieService.save(
+                    MatchMovie.builder()
+                            .movie(movie)
+                            .matchInfo(matchInfo)
+                            .build()
+            );
+
+            Place place = placeService.save(
+                    Place.builder()
+                            .placeName("place_0" + i)
+                            .build());
+            MatchPlace matchPlace = matchPlaceService.save(
+                    MatchPlace.builder()
+                            .place(place)
+                            .matchInfo(matchInfo)
+                            .build()
+            );
+
+            TheDay theDay = theDayService.save(
+                    TheDay.builder()
+                            .dayDate(LocalDate.of(2020, 3, 16+i-1))
+                            .dayTime(DayTime._7PM)
+                            .build()
+            );
+            MatchTheDay matchTheDay = matchTheDayService.save(
+                    MatchTheDay.builder()
+                            .theDay(theDay)
+                            .matchInfo(matchInfo)
+                            .build()
+            );
+        }
+
+        matchInfo = matchInfoService.findByIdFecthAll(matchInfo.getId());
+
+        assertEquals(matchInfo.getUserMaleId().getUserName(), userM.getUserName());
+        assertEquals(matchInfo.getUserFemaleId().getUserName(), userW.getUserName());
+
+        for(MatchTheDay mt : matchInfo.getThe_days()){
+            System.out.println("logging_theDays_of_matchInfo : "+mt.getId()+" : " + mt.getTheDay().getId()+"_"+mt.getTheDay().getDayDate());
+            TheDay theDay = theDayService.findByIdFetchAll(mt.getTheDay().getId());
+            assertEquals(mt.getTheDay().getId(), theDay.getId());
+            for(MatchTheDay mt2 : theDay.getMatchTheDays()) {
+                System.out.println("logging_theDay : " + theDay.getId()+ " : " + mt2.getId());
+                assertEquals(mt.getId(), mt2.getId());
+            }
+        }
+
+        for(MatchPlace mp : matchInfo.getPlaces()){
+            System.out.println("logging_places_of_matchInfo : "+mp.getId()+" : " + mp.getPlace().getId()+"_"+mp.getPlace().getPlaceName());
+            Place place = placeService.findByIdFetchAll(mp.getPlace().getId());
+            assertEquals(mp.getPlace().getId(), place.getId());
+            for(MatchPlace mp2 : place.getMatchPlaces()){
+                System.out.println("logging_place : " + place.getId()+ " : " + mp2.getId());
+                assertEquals(mp.getId(), mp2.getId());
+            }
+        }
+
+        for(MatchMovie mv : matchInfo.getMovies()){
+            System.out.println("logging_movies_of_matchInfo : "+mv.getId()+" : " + mv.getMovie().getId()+"_"+mv.getMovie().getMovieTitle());
+            Movie movie = movieService.findByIdFetchAll(mv.getMovie().getId());
+            assertEquals(mv.getMovie().getId(), movie.getId());
+            for(MatchMovie mv2 : movie.getMatchMovies()){
+                System.out.println("logging_movie : " + movie.getId()+" : " + mv2.getId());
+                assertEquals(mv.getId(), mv2.getId());
+            }
+        }
+
+        assertEquals(matchInfo.getThe_days().size(), 3);
+        assertEquals(matchInfo.getMovies().size(), 3);
+        assertEquals(matchInfo.getPlaces().size(), 3);
     }
 }
