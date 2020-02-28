@@ -9,8 +9,7 @@ import javax.validation.constraints.Size;
 
 import static lombok.AccessLevel.PROTECTED;
 
-@Entity
-@Getter @Builder
+@Entity @Getter @Builder
 @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
 public class Letter extends BaseEntity {
     /*
@@ -38,7 +37,7 @@ public class Letter extends BaseEntity {
     @NotNull
     private ProcessType process = ProcessType.SEARCHING;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false,
+    @OneToOne(fetch = FetchType.EAGER, optional = false,
             cascade = {
                     CascadeType.MERGE,
                     CascadeType.REMOVE
