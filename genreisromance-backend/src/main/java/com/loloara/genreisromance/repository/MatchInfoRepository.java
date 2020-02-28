@@ -10,6 +10,7 @@ import java.util.Optional;
 
 /* ToDo
     add order by and limit for findByUserId query
+    check existsByUserId working
  */
 
 @Repository
