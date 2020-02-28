@@ -11,7 +11,7 @@ public abstract class BaseEntity extends BaseModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
