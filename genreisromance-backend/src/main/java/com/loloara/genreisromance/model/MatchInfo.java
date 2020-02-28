@@ -26,15 +26,27 @@ public class MatchInfo extends BaseEntity {
      */
 
     @Builder.Default
-    @OneToMany(mappedBy = "matchInfo", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "matchInfo", fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.REMOVE
+            })
     private Set<MatchMovie> movies = new HashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "matchInfo", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "matchInfo", fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.REMOVE
+            })
     private Set<MatchTheDay> the_days = new HashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "matchInfo", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "matchInfo", fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.REMOVE
+            })
     private Set<MatchPlace> places = new HashSet<>();
 
     @Builder.Default
@@ -54,19 +66,32 @@ public class MatchInfo extends BaseEntity {
 
     @OneToOne(fetch = FetchType.EAGER,
             cascade = {
-                    CascadeType.MERGE,
-                    CascadeType.REMOVE
+                    CascadeType.MERGE
     })
     @JoinColumn(name = "user_male_id", referencedColumnName = "id")
     private User userMaleId;
 
     @OneToOne(fetch = FetchType.EAGER,
             cascade = {
-                    CascadeType.MERGE,
-                    CascadeType.REMOVE
+                    CascadeType.MERGE
     })
     @JoinColumn(name = "user_female_id", referencedColumnName = "id")
     private User userFemaleId;
+
+    @PreRemove
+    private void preRemove() {
+        for(MatchMovie mv : movies) {
+            mv.setNullMatchInfo();
+        }
+
+        for(MatchPlace mp : places) {
+            mp.setNullMatchInfo();
+        }
+
+        for(MatchTheDay mt : the_days) {
+            mt.setNullMatchInfo();
+        }
+    }
 
     public boolean equals(Object o) {
         if (this == o) {
