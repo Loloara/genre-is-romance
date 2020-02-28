@@ -7,17 +7,16 @@ import javax.validation.constraints.NotNull;
 
 import static lombok.AccessLevel.PROTECTED;
 
-@Entity
-@Getter @Builder
+@Entity @Getter @Builder
 @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
 public class MatchTheDay extends BaseEntity {
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "match_info_id")
     @NotNull
     private MatchInfo matchInfo;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "the_day_id")
     @NotNull
     private TheDay theDay;
