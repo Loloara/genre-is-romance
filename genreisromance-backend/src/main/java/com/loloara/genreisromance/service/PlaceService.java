@@ -25,6 +25,12 @@ public class PlaceService {
         placeRepository.saveAll(places);
     }
 
+    public Place findByIdFetchAll (Long placeId) {
+        log.info("Find place with all fetch by placeId : {}", placeId);
+        return placeRepository.findByIdFetchAll(placeId)
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
     public Place findById(Long placeId) {
         log.info("Find place by placeId : {}", placeId);
         return placeRepository.findById(placeId)

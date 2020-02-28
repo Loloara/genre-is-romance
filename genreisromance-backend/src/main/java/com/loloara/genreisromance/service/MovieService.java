@@ -25,6 +25,12 @@ public class MovieService {
         movieRepository.saveAll(movies);
     }
 
+    public Movie findByIdFetchAll (Long movieId) {
+        log.info("Find movie with all fetch by movieId : {}", movieId);
+        return movieRepository.findByIdFetchAll(movieId)
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
     public Movie findById(Long movieId) {
         log.info("Find movie by movieId : {}", movieId);
         return movieRepository.findById(movieId)

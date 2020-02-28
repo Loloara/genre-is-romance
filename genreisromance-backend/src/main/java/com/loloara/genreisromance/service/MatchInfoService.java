@@ -5,6 +5,8 @@ import com.loloara.genreisromance.repository.MatchInfoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class MatchInfoService {
@@ -19,9 +21,19 @@ public class MatchInfoService {
         return matchInfoRepository.save(matchInfo);
     }
 
-    public MatchInfo findById (Long matcherId) {
-        log.info("Find matcher by matcherId : {}", matcherId);
-        return matchInfoRepository.findById(matcherId)
+    public List<MatchInfo> findAll() {
+        return matchInfoRepository.findAll();
+    }
+
+    public MatchInfo findById (Long matchInfoId) {
+        log.info("Find matchInfo by matchInfoId : {}", matchInfoId);
+        return matchInfoRepository.findById(matchInfoId)
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public MatchInfo findByIdFecthAll (Long matchInfoId) {
+        log.info("Find matchInfo with all fetch by matchInfoId : {}", matchInfoId);
+        return matchInfoRepository.findByIdFetchAll(matchInfoId)
                 .orElseThrow(IllegalArgumentException::new);
     }
 
