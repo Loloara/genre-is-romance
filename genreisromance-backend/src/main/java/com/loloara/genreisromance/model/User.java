@@ -1,5 +1,6 @@
 package com.loloara.genreisromance.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.loloara.genreisromance.common.annotation.Phone;
 import com.loloara.genreisromance.common.util.Gender;
 import com.loloara.genreisromance.common.util.ProcessType;
@@ -23,6 +24,10 @@ public class User extends BaseEntity {
     @Size(min = 5, max = 30)
     @Column(length = 30, unique = true, nullable = false)
     private String email;
+
+    @JsonIgnore
+    @Column(name = "password_hash", nullable = true)
+    private String password;
 
     @Size(min = 2, max = 5)
     @Column(name = "user_name", length = 5, nullable = false)
