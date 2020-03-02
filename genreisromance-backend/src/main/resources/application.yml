@@ -1,4 +1,10 @@
 app:
+ security:
+  jwt:
+   secret: 5867a8374e7c0f6284b177b48faf89e1c79d72d8
+   token-validity-in-seconds: 86400 # 24 hour
+   token-validity-in-seconds-for-remember-me: 2592000
+
  datasource:
   driver-class-name: com.mysql.cj.jdbc.Driver
   url: jdbc:mysql://localhost:3306/genreisromance?serverTimezone=Asia/Seoul&userUnicode=true&characterEncoding=utf-8
