@@ -6,6 +6,7 @@ import com.loloara.genreisromance.common.util.AuthProvider;
 import com.loloara.genreisromance.common.util.Gender;
 import com.loloara.genreisromance.common.util.ProcessType;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -13,6 +14,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import static lombok.AccessLevel.PROTECTED;
 
@@ -61,7 +64,34 @@ public class User extends BaseEntity {
     @NotNull
     private ProcessType process = ProcessType.SEARCHING;
 
+    @Builder.Default
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name")})
+    @BatchSize(size = 20)
+    private Set<Authority> authorities = new HashSet<>();
+
     public Integer getAge() {
         return LocalDate.now().getYear() - birthDate.getYear() + 1;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final User other = (User) o;
+        return id.equals(other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : super.hashCode();
     }
 }
