@@ -2,6 +2,7 @@ package com.loloara.genreisromance.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.loloara.genreisromance.common.annotation.Phone;
+import com.loloara.genreisromance.common.util.AuthProvider;
 import com.loloara.genreisromance.common.util.Gender;
 import com.loloara.genreisromance.common.util.ProcessType;
 import lombok.*;
@@ -47,6 +48,10 @@ public class User extends BaseEntity {
 
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private AuthProvider provider;
 
     @Transient
     private Integer age;
