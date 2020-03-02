@@ -1,6 +1,8 @@
 package com.loloara.genreisromance.config;
 
 import com.loloara.genreisromance.security.Http401ErrorEntryPoint;
+import com.loloara.genreisromance.security.jwt.JwtAuthFilter;
+import com.loloara.genreisromance.security.jwt.JwtUtil;
 import com.loloara.genreisromance.security.service.CustomUserDetailsService;
 import com.loloara.genreisromance.security.SimpleCorsFilter;
 import org.springframework.context.annotation.Bean;
@@ -21,9 +23,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final JwtUtil jwtUtil;
 
-    WebSecurityConfig(CustomUserDetailsService customUserDetailsService) {
+    WebSecurityConfig(CustomUserDetailsService customUserDetailsService, JwtUtil jwtUtil) {
         this.customUserDetailsService = customUserDetailsService;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -45,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(simpleCorsFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(http401ErrorEntryPoint())
                 .and()
@@ -85,5 +90,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public Http401ErrorEntryPoint http401ErrorEntryPoint() {
         return new Http401ErrorEntryPoint();
+    }
+
+    @Bean
+    public JwtAuthFilter jwtAuthFilter() {
+        return new JwtAuthFilter(jwtUtil, customUserDetailsService);
     }
 }
