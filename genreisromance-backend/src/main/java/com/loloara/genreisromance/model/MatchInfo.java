@@ -93,25 +93,20 @@ public class MatchInfo extends BaseEntity {
         }
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null) {
-            return false;
-        }
-        if (getClass() != o.getClass()) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         final MatchInfo other = (MatchInfo) o;
-        return this.id.equals(other.id);
+        return id.equals(other.id);
     }
 
+    @Override
     public int hashCode() {
-        if(id != null) {
-            return id.hashCode();
-        } else {
-            return super.hashCode();
-        }
+        return id != null ? id.hashCode() : super.hashCode();
     }
 }
