@@ -28,16 +28,15 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() ->
                         new UsernameNotFoundException("User not found with email : " + email)
                 );
-
         return CustomUserDetails.create(user);
     }
 
     @Transactional
     public UserDetails loadUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(
-                () -> new ApiException("User not found ", HttpStatus.NOT_FOUND)
-        );
-
+        User user = userRepository.findById(id)
+                .orElseThrow(() ->
+                        new ApiException("User not found with id : " + id, HttpStatus.NOT_FOUND)
+                );
         return CustomUserDetails.create(user);
     }
 }
