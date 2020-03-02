@@ -1,6 +1,8 @@
 package com.loloara.genreisromance.config;
 
+import com.loloara.genreisromance.security.Http401ErrorEntryPoint;
 import com.loloara.genreisromance.security.service.CustomUserDetailsService;
+import com.loloara.genreisromance.security.SimpleCorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -41,6 +44,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .addFilterBefore(simpleCorsFilter(), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(http401ErrorEntryPoint())
+                .and()
                 .authorizeRequests()
                 .antMatchers("/api/user", "/admin/user", "/error**").permitAll()
                 .antMatchers("/api/**").access("ROLE_USER")
@@ -68,5 +75,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 return BCrypt.checkpw(rawPassword.toString(), encodedPassword);
             }
         };
+    }
+
+    @Bean
+    public SimpleCorsFilter simpleCorsFilter() {
+        return new SimpleCorsFilter();
+    }
+
+    @Bean
+    public Http401ErrorEntryPoint http401ErrorEntryPoint() {
+        return new Http401ErrorEntryPoint();
     }
 }
