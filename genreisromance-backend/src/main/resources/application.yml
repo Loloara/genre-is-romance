@@ -34,7 +34,7 @@ spring:
     format_sql: true
     default_batch_fetch_size: 30
   hibernate:
-   ddl-auto: update
+   ddl-auto: create
   generate-ddl: true
   show-sql: true
   database: mysql
@@ -52,6 +52,9 @@ logging:
 ---
 spring:
  profiles: production
+ jpa:
+  hibernate:
+   ddl-auto: update
 
 logging:
  path: /logs/
