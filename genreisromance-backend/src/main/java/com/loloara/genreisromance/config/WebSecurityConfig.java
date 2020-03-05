@@ -54,17 +54,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(http401ErrorEntryPoint())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/user", "/admin/user", "/error**").permitAll()
-                .antMatchers("/api/**").access("ROLE_USER")
-                .antMatchers("/api/**").access("ROLE_ADMIN")
-                .antMatchers("/admin/**").access("ROLE_ADMIN")
-                .antMatchers("/**")
+                .antMatchers("/api/register", "/api/authenticate/**", "/api/user/**", "/admin/user", "/error**").permitAll()
+                .anyRequest()
                 .authenticated()
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
-                .logout().disable();
+                .logout().disable()
+                .headers().frameOptions().disable();
     }
 
     @Bean
