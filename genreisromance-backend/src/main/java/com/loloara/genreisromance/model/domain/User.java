@@ -1,12 +1,12 @@
-package com.loloara.genreisromance.model;
+package com.loloara.genreisromance.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.loloara.genreisromance.common.annotation.Phone;
 import com.loloara.genreisromance.common.util.AuthProvider;
 import com.loloara.genreisromance.common.util.Gender;
 import com.loloara.genreisromance.common.util.ProcessType;
+import com.loloara.genreisromance.model.BaseEntity;
 import lombok.*;
-import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -19,8 +19,7 @@ import java.util.Set;
 
 import static lombok.AccessLevel.PROTECTED;
 
-@Entity
-@Getter @Builder
+@Entity @Getter @Builder
 @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
 public class User extends BaseEntity {
 
@@ -33,8 +32,8 @@ public class User extends BaseEntity {
     @Column(name = "password_hash", nullable = true)
     private String password;
 
-    @Size(min = 2, max = 5)
-    @Column(name = "user_name", length = 5, nullable = false)
+    @Size(min = 2, max = 10)
+    @Column(name = "user_name", length = 10, nullable = false)
     private String userName;
 
     @NotNull
@@ -65,17 +64,18 @@ public class User extends BaseEntity {
     private ProcessType process = ProcessType.SEARCHING;
 
     @Builder.Default
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-            name = "user_authority",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_name")})
-    @BatchSize(size = 20)
-    private Set<Authority> authorities = new HashSet<>();
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<UserAuthority> authorities = new HashSet<>();
 
     public Integer getAge() {
         return LocalDate.now().getYear() - birthDate.getYear() + 1;
+    }
+
+    @PreRemove
+    private void preRemove() {
+        for(UserAuthority userAuthority : authorities) {
+            userAuthority.setNullUser();
+        }
     }
 
     @Override
