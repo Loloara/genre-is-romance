@@ -1,5 +1,6 @@
-package com.loloara.genreisromance.model;
+package com.loloara.genreisromance.model.domain;
 
+import com.loloara.genreisromance.model.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;

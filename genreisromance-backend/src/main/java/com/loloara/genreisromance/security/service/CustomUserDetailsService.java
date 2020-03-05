@@ -1,7 +1,7 @@
 package com.loloara.genreisromance.security.service;
 
 import com.loloara.genreisromance.common.exception.ApiException;
-import com.loloara.genreisromance.model.User;
+import com.loloara.genreisromance.model.domain.User;
 import com.loloara.genreisromance.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

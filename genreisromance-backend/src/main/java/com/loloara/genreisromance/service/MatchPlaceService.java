@@ -1,6 +1,6 @@
 package com.loloara.genreisromance.service;
 
-import com.loloara.genreisromance.model.MatchPlace;
+import com.loloara.genreisromance.model.domain.MatchPlace;
 import com.loloara.genreisromance.repository.MatchPlaceRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

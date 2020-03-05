@@ -1,7 +1,7 @@
 package com.loloara.genreisromance.security.service;
 
 import com.loloara.genreisromance.common.util.AuthoritiesConstant;
-import com.loloara.genreisromance.model.User;
+import com.loloara.genreisromance.model.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

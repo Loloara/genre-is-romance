@@ -1,6 +1,6 @@
 package com.loloara.genreisromance.repository;
 
-import com.loloara.genreisromance.model.Movie;
+import com.loloara.genreisromance.model.domain.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

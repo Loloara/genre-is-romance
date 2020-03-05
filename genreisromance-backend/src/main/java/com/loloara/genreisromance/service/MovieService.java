@@ -1,6 +1,6 @@
 package com.loloara.genreisromance.service;
 
-import com.loloara.genreisromance.model.Movie;
+import com.loloara.genreisromance.model.domain.Movie;
 import com.loloara.genreisromance.repository.MovieRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.loloara.genreisromance.config;
 
-import com.loloara.genreisromance.model.User;
+import com.loloara.genreisromance.model.domain.User;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;

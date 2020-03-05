@@ -1,6 +1,6 @@
 package com.loloara.genreisromance.service;
 
-import com.loloara.genreisromance.model.TheDay;
+import com.loloara.genreisromance.model.domain.TheDay;
 import com.loloara.genreisromance.repository.TheDayRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
