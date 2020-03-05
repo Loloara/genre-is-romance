@@ -1,7 +1,7 @@
-package com.loloara.genreisromance.model;
+package com.loloara.genreisromance.model.domain;
 
+import com.loloara.genreisromance.model.BaseEntity;
 import lombok.*;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 
@@ -33,7 +33,6 @@ public class MatchMovie extends BaseEntity {
         movie = null;
     }
 
-    @Transactional
     @PreRemove
     private void preRemove() {
         if(matchInfo != null) {
