@@ -41,9 +41,6 @@ public class UserApiTest {
     @Autowired
     AuthorityRepository authorityRepository;
 
-    @Autowired
-    ObjectMapper objectMapper;
-
     @Test
     public void registerAndGetUserTest() throws Exception {
         final String TEST_EMAIL = "test@gmail.com";
