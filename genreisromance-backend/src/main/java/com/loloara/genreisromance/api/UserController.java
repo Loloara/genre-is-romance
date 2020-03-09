@@ -1,5 +1,6 @@
 package com.loloara.genreisromance.api;
 
+import com.loloara.genreisromance.model.domain.User;
 import com.loloara.genreisromance.model.dto.UserDto;
 import com.loloara.genreisromance.repository.UserRepository;
 import com.loloara.genreisromance.service.UserService;
@@ -30,14 +31,14 @@ public class UserController {
     private static final String CHECK_ERROR_MESSAGE = "Incorrect password";
 
     @PostMapping(path = "/register")
-    public ResponseEntity registerAccount(@Valid @RequestBody UserDto.Create userDto) throws IllegalArgumentException {
+    public ResponseEntity<?> registerAccount(@Valid @RequestBody UserDto.Create userDto) throws IllegalArgumentException {
         if(StringUtils.isEmpty(userDto.getPassword()) &&
                 (userDto.getPassword().length() < 8 || userDto.getPassword().length() > 20)) {
             return new ResponseEntity<>(CHECK_ERROR_MESSAGE, HttpStatus.BAD_REQUEST);
         }
-        userService.registerAccount(userDto);
+        User result = userService.registerAccount(userDto);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<User>(result, HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/user/{email}")
@@ -46,6 +47,5 @@ public class UserController {
                 .map(user -> modelMapper.map(user, UserDto.Response.class))
                 .map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-
     }
 }
