@@ -8,6 +8,7 @@ import com.loloara.genreisromance.security.SimpleCorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -37,6 +38,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Override
     public void configure(WebSecurity web) {
         web.ignoring().mvcMatchers(HttpMethod.OPTIONS, "/**");
     }
@@ -54,9 +61,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(http401ErrorEntryPoint())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/register", "/api/authenticate/**", "/api/user/**", "/admin/user", "/error**").permitAll()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/api/register", "/api/auth/email**", "/api/user/**", "/api/auth/user").permitAll()
+                .antMatchers("/api/auth/user").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+                .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
