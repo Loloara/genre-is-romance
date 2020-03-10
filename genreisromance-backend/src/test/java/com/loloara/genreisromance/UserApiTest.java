@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.loloara.genreisromance.common.util.Gender;
+import com.loloara.genreisromance.model.domain.UserAuthority;
 import com.loloara.genreisromance.model.dto.UserDto;
 import com.loloara.genreisromance.repository.AuthorityRepository;
 import com.loloara.genreisromance.repository.UserRepository;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -43,17 +46,17 @@ public class UserApiTest {
 
     @Test
     public void registerAndGetUserTest() throws Exception {
-        final String TEST_EMAIL = "test@gmail.com";
+        final String TEST_EMAIL = "test01@gmail.com";
 
         String jsonUser = asJsonString(
                 UserDto.Create.builder()
                         .email(TEST_EMAIL)
                         .password("test1@3$")
-                        .userName("tuser")
+                        .userName("testUser")
                         .height(173)
-                        .phone("01022345678")
+                        .phone("01012345678")
                         .gender(Gender.MALE.jsonValue())
-                        .birthDate(LocalDate.of(1994,3,16))
+                        .birthDate(LocalDate.of(1994,4,10))
                         .build());
 
         MvcResult result = mockMvc.perform(
@@ -75,14 +78,56 @@ public class UserApiTest {
         System.out.println("getUserTest: " + result2.getResponse().getContentAsString());
 
         userRepository.findByEmailFetchAll(TEST_EMAIL).ifPresent(user -> {
-            assertEquals(user.getAuthorities().size(), 1);
+            for(UserAuthority u : user.getAuthorities()) {
+                assertEquals(u.getAuthority().getName(), "ROLE_USER");
+            }
         });
 
         authorityRepository.findByNameFetchAll("ROLE_USER").ifPresent(authority -> {
-            assertEquals(authority.getUsers().size(), 1);
+            boolean chk = false;
+            for(UserAuthority u : authority.getUsers()) {
+                if(u.getUser().getEmail().equals(TEST_EMAIL)) {
+                    chk = true;
+                    break;
+                }
+            }
+            assertTrue(chk);
         });
 
         userRepository.deleteByEmail(TEST_EMAIL);
+    }
+
+    @Test
+    public void LoginTest() throws Exception {
+        final String TEST_EMAIL = "test02@gmail.com";
+
+        String jsonUser = asJsonString(
+                UserDto.LoginRequest.builder()
+                .email(TEST_EMAIL)
+                .password("test1@3$")
+                .build());
+
+        MvcResult result = mockMvc.perform(
+                post("/api/auth/email")
+                        .content(jsonUser)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        System.out.println("LoginTest: " + result.getResponse().getContentAsString());
+
+        JSONObject obj = new JSONObject(result.getResponse().getContentAsString());
+        String token = obj.getString("token");
+
+        MvcResult result2 = mockMvc.perform(
+                post("/api/auth/user")
+                        .header("Authorization", token))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        System.out.println("CurrentUserTest: " + result2.getResponse().getContentAsString());
     }
 
     public static String asJsonString(final Object o) {

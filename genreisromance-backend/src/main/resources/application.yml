@@ -1,7 +1,7 @@
 app:
  security:
   jwt:
-   secret: 5867a8374e7c0f6284b177b48faf89e1c79d72d8
+   secret-key: 5867a8374e7c0f6284b177b48faf89e1c79d72d8  # github에 커밋되어 있음
    token-validity-in-seconds: 86400 # 24 hour
    token-validity-in-seconds-for-remember-me: 2592000
 
