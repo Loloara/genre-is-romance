@@ -4,6 +4,7 @@ import com.loloara.genreisromance.model.domain.User;
 import com.loloara.genreisromance.model.dto.UserDto;
 import com.loloara.genreisromance.repository.UserRepository;
 import com.loloara.genreisromance.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,7 @@ public class UserController {
 
     private static final String CHECK_ERROR_MESSAGE = "Incorrect password";
 
+    @ApiOperation(value = "Email 회원가입 API", notes = "Authorization Header 필요 없습니다.")
     @PostMapping(path = "/register")
     public ResponseEntity<?> registerAccount(@Valid @RequestBody UserDto.Create userDto) throws IllegalArgumentException {
         if(StringUtils.isEmpty(userDto.getPassword()) &&
@@ -41,6 +43,7 @@ public class UserController {
         return new ResponseEntity<User>(result, HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "get User by Email API", notes = "Authorization Header 필요 없습니다.")
     @GetMapping(path = "/user/{email}")
     public ResponseEntity<UserDto.Response> getUser(@PathVariable String email) {
         return userRepository.findByEmail(email)
