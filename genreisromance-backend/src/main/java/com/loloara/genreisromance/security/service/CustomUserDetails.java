@@ -121,5 +121,10 @@ public class CustomUserDetails implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return isCredentialsNonExpired;
     }
+
+    @Override
+    public String toString() {
+        return "{ email: " + email + ", name: " + username + ", authority: " + authorities.toString() + " }";
+    }
 }
 
