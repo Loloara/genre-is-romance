@@ -3,6 +3,7 @@ package com.loloara.genreisromance.security.jwt;
 import com.loloara.genreisromance.common.util.AuthoritiesConstant;
 import com.loloara.genreisromance.security.service.CustomUserDetails;
 import io.jsonwebtoken.*;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +19,7 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Service
+@Service @Setter
 @ConfigurationProperties("app.security.jwt")
 public class JwtUtil {
 
