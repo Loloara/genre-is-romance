@@ -8,6 +8,7 @@ import com.loloara.genreisromance.repository.UserRepository;
 import com.loloara.genreisromance.security.jwt.JwtAuthResponse;
 import com.loloara.genreisromance.security.jwt.JwtUtil;
 import com.loloara.genreisromance.security.service.CustomUserDetails;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ import java.util.Collections;
 
 @Slf4j
 @RestController @CrossOrigin
-@RequestMapping(path = "/auth")
+@RequestMapping(path = "/api/auth")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -39,7 +40,8 @@ public class AuthController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping(path = "/authenticate")
+    @ApiOperation(value = "Email Login API", notes = "Authorization Header 필요 없습니다.")
+    @PostMapping(path = "/email")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody UserDto.LoginRequest request,
                                                        @RequestParam(value = "rememberMe", defaultValue = "false", required = false) boolean rememberMe,
                                                        HttpServletResponse response) throws AuthenticationException {
@@ -60,11 +62,12 @@ public class AuthController {
         }
     }
 
+    @ApiOperation(value = "get Current User API", notes = "Token을 가지고 User 얻기.")
     @PostMapping(path = "/user")
-    @PreAuthorize("hasRole('USER')")
-    public User getCurrentUser(@CurrentUser CustomUserDetails CustomUserDetails) {
-        log.debug("REST request to get user : {}", CustomUserDetails.getEmail());
-        return userRepository.findById(CustomUserDetails.getId())
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public User getCurrentUser(@CurrentUser CustomUserDetails customUserDetails) {
+        log.debug("REST request to get user : {}", customUserDetails.getEmail());
+        return userRepository.findById(customUserDetails.getId())
                 .orElseThrow(() -> new ApiException("User", HttpStatus.NOT_FOUND));
     }
 }
