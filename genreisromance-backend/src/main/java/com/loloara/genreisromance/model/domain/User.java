@@ -29,7 +29,7 @@ public class User extends BaseEntity {
     private String email;
 
     @JsonIgnore
-    @Column(name = "password_hash", nullable = true)
+    @Column(name = "password_hash", nullable = false)
     private String password;
 
     @Size(min = 2, max = 10)
@@ -66,6 +66,19 @@ public class User extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<UserAuthority> authorities = new HashSet<>();
+
+    public User(Long id) {
+        super();
+        this.id = id;
+        this.email = "temp@gmail.com";
+        this.password = "temp1@3$";
+        this.userName = "temp";
+        this.birthDate = LocalDate.now();
+        this.gender = Gender.MALE;
+        this.height = 200;
+        this.phone = "01012341234";
+        this.provider = AuthProvider.LOCAL;
+    }
 
     public Integer getAge() {
         return LocalDate.now().getYear() - birthDate.getYear() + 1;
