@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Slf4j
-@RestController @CrossOrigin
+@RestController
 @RequestMapping(path = "/api")
 public class UserController {
 
@@ -51,4 +51,6 @@ public class UserController {
                 .map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+
 }
