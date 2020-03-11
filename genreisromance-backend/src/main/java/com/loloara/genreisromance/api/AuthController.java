@@ -12,7 +12,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 
 @Slf4j
-@RestController @CrossOrigin
+@RestController
 @RequestMapping(path = "/api/auth")
 public class AuthController {
 
@@ -50,7 +49,7 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
 
         try {
-            Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
+            Authentication authentication = authenticationManager.authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = "Bearer " + jwtUtil.createToken(authentication, rememberMe);
             response.addHeader(AUTHORIZATION_HEADER, jwt);
@@ -64,7 +63,6 @@ public class AuthController {
 
     @ApiOperation(value = "get Current User API", notes = "Token을 가지고 User 얻기.")
     @PostMapping(path = "/user")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public User getCurrentUser(@CurrentUser CustomUserDetails customUserDetails) {
         log.debug("REST request to get user : {}", customUserDetails.getEmail());
         return userRepository.findById(customUserDetails.getId())
