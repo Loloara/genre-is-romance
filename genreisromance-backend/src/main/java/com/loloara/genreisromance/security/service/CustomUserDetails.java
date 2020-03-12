@@ -1,15 +1,12 @@
 package com.loloara.genreisromance.security.service;
 
-import com.loloara.genreisromance.common.util.AuthoritiesConstant;
 import com.loloara.genreisromance.model.domain.User;
+import com.loloara.genreisromance.model.domain.UserAuthority;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CustomUserDetails implements UserDetails {
     private Long id;
@@ -37,8 +34,10 @@ public class CustomUserDetails implements UserDetails {
     }
 
     public static CustomUserDetails create(User user) {
-        List<GrantedAuthority> authorities = Collections.
-                singletonList(new SimpleGrantedAuthority(AuthoritiesConstant.USER));
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        for(UserAuthority userAuthority : user.getAuthorities()) {
+            authorities.add(new SimpleGrantedAuthority(userAuthority.getAuthority().getName()));
+        }
 
         return new CustomUserDetails(
                 user.getId(),
