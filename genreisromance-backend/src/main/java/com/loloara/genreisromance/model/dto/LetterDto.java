@@ -31,6 +31,21 @@ public class LetterDto {
         private String imagePath;
     }
 
+    @Getter @Builder
+    public static class Update {
+
+        private String q1;
+        private String q2;
+        private String q3;
+        private String imagePath;
+    }
+
+    @Getter @Builder
+    public static class UpdateProcess {
+
+        private ProcessType process;
+    }
+
     @Getter @Setter @NoArgsConstructor(access = PROTECTED)
     public static class LetterInfo {
 
