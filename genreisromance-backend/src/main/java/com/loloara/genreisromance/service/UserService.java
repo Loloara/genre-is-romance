@@ -32,7 +32,7 @@ public class UserService {
     }
 
     @Transactional
-    public User registerAccount(UserDto.Create userDto) {
+    public User registerAccount(UserDto.Create userDto, String role) {
         if(userRepository.existsByEmail(userDto.getEmail())) {
             throw new ApiException("Email Already exists.", HttpStatus.BAD_REQUEST);
         }
@@ -47,11 +47,9 @@ public class UserService {
                 .provider(AuthProvider.LOCAL)
                 .build());
 
-        authorityRepository.findById(AuthoritiesConstant.USER).ifPresent(
-                auth -> {
-                    UserAuthority userAuthority = userAuthorityRepository.save(
-                            UserAuthority.builder().user(user).authority(auth).build());
-        });
+        authorityRepository.findById(role).ifPresent(
+                auth -> userAuthorityRepository.save(UserAuthority.builder().user(user).authority(auth).build())
+        );
 
         return user;
     }
