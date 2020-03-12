@@ -46,7 +46,7 @@ public class UserDto {
     }
 
     @Getter @Setter @NoArgsConstructor(access = PROTECTED)
-    public static class Response {
+    public static class UserInfo {
         private Long id;
         private String email;
         private Set<String> authorities;
