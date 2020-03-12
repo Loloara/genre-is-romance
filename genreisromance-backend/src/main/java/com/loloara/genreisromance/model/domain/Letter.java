@@ -19,15 +19,15 @@ public class Letter extends BaseEntity {
 
     @Size(min = 0, max = 100)
     @Column(length = 100, nullable = false)
-    private String Q1;
+    private String q1;
 
     @Size(min = 0, max = 100)
     @Column(length = 100, nullable = false)
-    private String Q2;
+    private String q2;
 
     @Size(min = 0, max = 100)
     @Column(length = 100, nullable = false)
-    private String Q3;
+    private String q3;
 
     @Size(min = 15, max = 18)
     @Column(name = "image_path", length = 18, nullable = false)
@@ -38,11 +38,7 @@ public class Letter extends BaseEntity {
     @NotNull
     private ProcessType process = ProcessType.SEARCHING;
 
-    @OneToOne(fetch = FetchType.EAGER, optional = false,
-            cascade = {
-                    CascadeType.MERGE,
-                    CascadeType.REMOVE
-            })
+    @OneToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     @NotNull
     private User user_id;
