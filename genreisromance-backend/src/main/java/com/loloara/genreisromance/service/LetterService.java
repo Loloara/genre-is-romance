@@ -1,11 +1,13 @@
 package com.loloara.genreisromance.service;
 
+import com.loloara.genreisromance.common.util.ProcessType;
 import com.loloara.genreisromance.model.domain.Letter;
+import com.loloara.genreisromance.model.domain.User;
+import com.loloara.genreisromance.model.dto.LetterDto;
 import com.loloara.genreisromance.repository.LetterRepository;
+import com.loloara.genreisromance.security.service.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @Slf4j
@@ -16,40 +18,20 @@ public class LetterService {
         this.letterRepository = letterRepository;
     }
 
-    public Letter save (Letter letter) {
-        return letterRepository.save(letter);
+    public LetterDto.LetterInfo registerLetter(LetterDto.Create letterDto, CustomUserDetails customUserDetails) {
+        Letter newLetter = Letter.builder()
+                .q1(letterDto.getQ1())
+                .q2(letterDto.getQ2())
+                .q3(letterDto.getQ3())
+                .imagePath(letterDto.getImagePath())
+                .process(ProcessType.SEARCHING)
+                .user_id(new User(customUserDetails.getId()))
+                .build();
+
+        return new LetterDto.LetterInfo(letterRepository.save(newLetter));
     }
 
-    public void saveAll (List<Letter> letters) {
-        letterRepository.saveAll(letters);
-    }
-
-    public Letter findById (Long letterId) {
-        log.info("Find letter by letterId : {}", letterId);
-        return letterRepository.findById(letterId)
-                    .orElseThrow(IllegalArgumentException::new);
-    }
-
-    public Letter findByUserId (Long userId) {
-        log.info("Find letter by userId : {}", userId);
-        return letterRepository.findByUserId(userId)
-                .orElseThrow(IllegalArgumentException::new);
-    }
-
-    public List<Letter> findAll () {
-        return letterRepository.findAll();
-    }
-
-    public boolean existsById (Long letterId) {
-        return letterRepository.existsById(letterId);
-    }
-
-    public boolean existsByUserId (Long userId) {
-        return letterRepository.existsByUserId(userId);
-    }
-
-    public void delete(Letter letter) {
-        log.info("Delete letter by object Letter : {}", letter.getId());
-        letterRepository.delete(letter);
+    public LetterDto.LetterInfos findByProcess(ProcessType processType) {
+        return new LetterDto.LetterInfos(letterRepository.findByProcess(processType));
     }
 }
