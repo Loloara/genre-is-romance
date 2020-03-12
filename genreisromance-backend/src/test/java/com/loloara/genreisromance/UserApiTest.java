@@ -60,14 +60,14 @@ public class UserApiTest {
                         .build());
 
         MvcResult result = mockMvc.perform(
-                post("/api/register")
+                post("/api/user")
                         .content(jsonUser)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        System.out.println("registerUserTest: " + result.getRequest().getContentAsString());
+        System.out.println("registerUserTest: " + result.getResponse().getContentAsString());
 
         MvcResult result2 = mockMvc.perform(
                 get("/api/user/" + TEST_EMAIL))
