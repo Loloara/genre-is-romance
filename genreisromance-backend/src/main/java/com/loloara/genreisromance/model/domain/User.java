@@ -6,6 +6,7 @@ import com.loloara.genreisromance.common.util.AuthProvider;
 import com.loloara.genreisromance.common.util.Gender;
 import com.loloara.genreisromance.common.util.ProcessType;
 import com.loloara.genreisromance.model.BaseEntity;
+import com.loloara.genreisromance.model.dto.UserDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,6 +19,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static lombok.AccessLevel.PROTECTED;
+
+/* todo
+    Soft Delete 방식으로 바꿀 예정
+ */
 
 @Entity @Getter @Builder
 @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
@@ -64,7 +69,7 @@ public class User extends BaseEntity {
     private ProcessType process = ProcessType.SEARCHING;
 
     @Builder.Default
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<UserAuthority> authorities = new HashSet<>();
 
     public User(Long id) {
@@ -82,6 +87,20 @@ public class User extends BaseEntity {
 
     public Integer getAge() {
         return LocalDate.now().getYear() - birthDate.getYear() + 1;
+    }
+
+    public void setProcess(ProcessType process) {
+        this.process = process;
+    }
+
+    public boolean updateVal(UserDto.Update userDto) {
+        String newPassword = userDto.getPassword();
+        if(newPassword == null) {
+            return false;
+        } else {
+            this.password = newPassword;
+        }
+        return true;
     }
 
     @PreRemove
