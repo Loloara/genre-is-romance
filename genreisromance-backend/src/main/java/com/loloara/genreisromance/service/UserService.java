@@ -2,14 +2,15 @@ package com.loloara.genreisromance.service;
 
 import com.loloara.genreisromance.common.exception.ApiException;
 import com.loloara.genreisromance.common.util.AuthProvider;
-import com.loloara.genreisromance.common.util.AuthoritiesConstant;
 import com.loloara.genreisromance.common.util.Gender;
+import com.loloara.genreisromance.common.util.ProcessType;
 import com.loloara.genreisromance.model.domain.User;
 import com.loloara.genreisromance.model.domain.UserAuthority;
 import com.loloara.genreisromance.model.dto.UserDto;
 import com.loloara.genreisromance.repository.AuthorityRepository;
 import com.loloara.genreisromance.repository.UserAuthorityRepository;
 import com.loloara.genreisromance.repository.UserRepository;
+import com.loloara.genreisromance.security.service.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -52,5 +53,26 @@ public class UserService {
         );
 
         return user;
+    }
+
+    public UserDto.UserInfo updateUser(UserDto.Update userDto, CustomUserDetails customUserDetails) {
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        User newUser = userRepository.findById(customUserDetails.getId())
+                .orElseThrow(() -> new ApiException("User does not exist", HttpStatus.NOT_FOUND));
+        newUser.updateVal(userDto);
+
+        return new UserDto.UserInfo(userRepository.save(newUser));
+    }
+
+    public UserDto.UserInfo updateUserProcess(UserDto.UpdateProcess userDto, Long userId) {
+        User newUser = userRepository.findById(userId)
+                .orElseThrow(() -> new ApiException("User does not exist", HttpStatus.NOT_FOUND));
+        newUser.setProcess(userDto.getProcess());
+
+        return new UserDto.UserInfo(userRepository.save(newUser));
+    }
+
+    public UserDto.UserInfos findByProcess(ProcessType processType) {
+        return new UserDto.UserInfos(userRepository.findByProcess(processType));
     }
 }
