@@ -25,8 +25,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u join fetch u.authorities where u.email = :email")
     Optional<User> findByEmailFetchAll(@Param("email") String email);
 
-    @Query("select id from User where process = :process")
-    List<Long> findAllByProcess(@Param("process") ProcessType process);
+    List<User> findByProcess(ProcessType process);
 
     boolean existsByEmail(String email);
     boolean existsByPhone(String phone);
