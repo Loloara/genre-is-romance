@@ -1,14 +1,15 @@
 package com.loloara.genreisromance.model.dto;
 
 import com.loloara.genreisromance.common.annotation.Phone;
+import com.loloara.genreisromance.common.util.ProcessType;
+import com.loloara.genreisromance.model.domain.User;
 import com.loloara.genreisromance.model.domain.UserAuthority;
 import lombok.*;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -51,8 +52,26 @@ public class UserDto {
         private String email;
         private Set<String> authorities;
 
+        public UserInfo(User user) {
+            id = user.getId();
+            email = user.getEmail();
+            setAuthorities(user.getAuthorities());
+        }
+
         public void setAuthorities(Set<UserAuthority> authorities) {
             this.authorities = authorities.stream().map( userAuthority -> userAuthority.getAuthority().getName()).collect(Collectors.toSet());
+        }
+    }
+
+    @Getter @Setter
+    public static class UserInfos {
+        private List<UserInfo> userInfos;
+
+        public UserInfos(List<User> users) {
+            userInfos = new ArrayList<>();
+            for(User u : users) {
+                userInfos.add(new UserInfo(u));
+            }
         }
     }
 
@@ -67,5 +86,17 @@ public class UserDto {
         @Pattern(regexp="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}",
                 message = "비밀번호는 영어와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 20자의 비밀번호여야 합니다.")
         private String password;
+    }
+
+    @Getter @Setter @Builder
+    public static class Update {
+
+        private String password;
+    }
+
+    @Getter @Builder
+    public static class UpdateProcess {
+
+        private ProcessType process;
     }
 }
