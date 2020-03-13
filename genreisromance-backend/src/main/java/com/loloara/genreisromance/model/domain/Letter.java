@@ -39,7 +39,9 @@ public class Letter extends BaseEntity {
     @NotNull
     private ProcessType process = ProcessType.SEARCHING;
 
-    @OneToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, optional = false, cascade = {
+            CascadeType.MERGE, CascadeType.REMOVE
+    })
     @JoinColumn(name = "user_id")
     @NotNull
     private User user_id;
