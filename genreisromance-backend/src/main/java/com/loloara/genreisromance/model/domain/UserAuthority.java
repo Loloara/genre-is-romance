@@ -39,4 +39,9 @@ public class UserAuthority extends BaseEntity {
             user.getAuthorities().remove(this);
         }
     }
+
+    @Override
+    public String toString() {
+        return "[{\"user\":\""+user.getId()+"\"}," + authority.toString() + "]";
+    }
 }
