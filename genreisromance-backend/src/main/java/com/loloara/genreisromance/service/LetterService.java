@@ -10,7 +10,6 @@ import com.loloara.genreisromance.security.service.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -38,21 +37,19 @@ public class LetterService {
         return new LetterDto.LetterInfos(letterRepository.findByProcess(processType));
     }
 
-    @Transactional
     public LetterDto.LetterInfo updateLetter(LetterDto.Update letterDto, CustomUserDetails customUserDetails) {
         Letter letter = letterRepository.findByUserId(customUserDetails.getId())
                 .orElseThrow(() -> new ApiException("Letter does not exist", HttpStatus.NOT_FOUND));
         letter.updateVal(letterDto);
 
-        return new LetterDto.LetterInfo(letter);
+        return new LetterDto.LetterInfo(letterRepository.save(letter));
     }
 
-    @Transactional
     public LetterDto.LetterInfo updateLetterProcess(LetterDto.UpdateProcess letterDto, Long userId) {
         Letter letter = letterRepository.findByUserId(userId)
                 .orElseThrow(() -> new ApiException("Letter does not exist", HttpStatus.NOT_FOUND));
         letter.setProcess(letterDto.getProcess());
 
-        return new LetterDto.LetterInfo(letter);
+        return new LetterDto.LetterInfo(letterRepository.save(letter));
     }
 }
