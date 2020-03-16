@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PlaceRepository extends JpaRepository<Place, Long> {
+public interface PlaceRepository extends JpaRepository<Place, String> {
+
     @Query("select p from Place p left join fetch p.matchPlaces")
     List<Place> findFetchAll();
 

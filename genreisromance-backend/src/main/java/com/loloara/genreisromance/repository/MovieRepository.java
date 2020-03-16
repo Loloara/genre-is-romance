@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface MovieRepository extends JpaRepository<Movie, Long> {
+public interface MovieRepository extends JpaRepository<Movie, String> {
+
     @Query("select m from Movie m left join fetch m.matchMovies")
     List<Movie> findFetchAll();
 
