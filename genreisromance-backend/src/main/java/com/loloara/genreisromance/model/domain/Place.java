@@ -1,6 +1,7 @@
 package com.loloara.genreisromance.model.domain;
 
 import com.loloara.genreisromance.model.BaseEntity;
+import com.loloara.genreisromance.model.dto.PlaceDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,6 +25,16 @@ public class Place extends BaseEntity {
                     CascadeType.REMOVE
             })
     private Set<MatchPlace> matchPlaces = new HashSet<>();
+
+    public boolean updateVal(PlaceDto.Update placeDto) {
+        String newPlaceName = placeDto.getPlaceName();
+        if(newPlaceName == null) {
+            return false;
+        } else {
+            placeName = newPlaceName;
+        }
+        return true;
+    }
 
     @PreRemove
     public void preRemove() {

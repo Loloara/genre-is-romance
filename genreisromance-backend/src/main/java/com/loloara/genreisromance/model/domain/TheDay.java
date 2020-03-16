@@ -2,6 +2,7 @@ package com.loloara.genreisromance.model.domain;
 
 import com.loloara.genreisromance.common.util.DayTime;
 import com.loloara.genreisromance.model.BaseEntity;
+import com.loloara.genreisromance.model.dto.TheDayDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,6 +31,21 @@ public class TheDay extends BaseEntity {
                     CascadeType.REMOVE
             })
     private Set<MatchTheDay> matchTheDays = new HashSet<>();
+
+    public boolean updateVal(TheDayDto.Update theDayDto) {
+        LocalDate newDayDate = theDayDto.getDayDate();
+        DayTime newDayTime = theDayDto.getDayTime();
+        if(newDayDate == null && newDayTime == null) {
+            return false;
+        }
+        if(newDayDate != null) {
+            dayDate = newDayDate;
+        }
+        if(newDayTime != null) {
+            dayTime = newDayTime;
+        }
+        return true;
+    }
 
     @PreRemove
     public void preRemove() {

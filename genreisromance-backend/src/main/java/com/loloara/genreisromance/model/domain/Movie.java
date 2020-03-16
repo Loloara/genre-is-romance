@@ -1,6 +1,7 @@
 package com.loloara.genreisromance.model.domain;
 
 import com.loloara.genreisromance.model.BaseEntity;
+import com.loloara.genreisromance.model.dto.MovieDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,6 +25,16 @@ public class Movie extends BaseEntity {
                     CascadeType.REMOVE
             })
     private Set<MatchMovie> matchMovies = new HashSet<>();
+
+    public boolean updateVal(MovieDto.Update movieDto) {
+        String newMovieTitle = movieDto.getMovieTitle();
+        if(newMovieTitle == null) {
+            return false;
+        } else {
+            movieTitle = newMovieTitle;
+        }
+        return true;
+    }
 
     @PreRemove
     public void preRemove() {
