@@ -6,11 +6,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface TheDayRepository extends JpaRepository<TheDay, Long> {
+
+    List<TheDay> findByDayDate(LocalDate dayDate);
+
     @Query("select t from TheDay t left join fetch t.matchTheDays")
     List<TheDay> findFetchAll();
 
