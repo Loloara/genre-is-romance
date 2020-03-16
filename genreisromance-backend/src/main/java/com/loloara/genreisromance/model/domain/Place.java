@@ -1,6 +1,6 @@
 package com.loloara.genreisromance.model.domain;
 
-import com.loloara.genreisromance.model.BaseEntity;
+import com.loloara.genreisromance.model.BaseModel;
 import com.loloara.genreisromance.model.dto.PlaceDto;
 import lombok.*;
 
@@ -13,8 +13,9 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Entity @Getter @Builder
 @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
-public class Place extends BaseEntity {
+public class Place extends BaseModel {
 
+    @Id
     @Column(name = "place_name", nullable = false)
     private String placeName;
 
@@ -52,11 +53,11 @@ public class Place extends BaseEntity {
             return false;
         }
         final Place other = (Place) o;
-        return id.equals(other.id);
+        return placeName.equals(other.placeName);
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : super.hashCode();
+        return placeName != null ? placeName.hashCode() : super.hashCode();
     }
 }

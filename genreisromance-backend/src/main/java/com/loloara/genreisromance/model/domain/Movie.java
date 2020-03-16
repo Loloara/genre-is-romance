@@ -1,6 +1,6 @@
 package com.loloara.genreisromance.model.domain;
 
-import com.loloara.genreisromance.model.BaseEntity;
+import com.loloara.genreisromance.model.BaseModel;
 import com.loloara.genreisromance.model.dto.MovieDto;
 import lombok.*;
 
@@ -13,8 +13,9 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Entity @Getter @Builder
 @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
-public class Movie extends BaseEntity {
+public class Movie extends BaseModel {
 
+    @Id
     @Column(name = "movie_title", nullable = false)
     private String movieTitle;
 
@@ -52,11 +53,11 @@ public class Movie extends BaseEntity {
             return false;
         }
         final Movie other = (Movie) o;
-        return id.equals(other.id);
+        return movieTitle.equals(other.movieTitle);
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : super.hashCode();
+        return movieTitle != null ? movieTitle.hashCode() : super.hashCode();
     }
 }
