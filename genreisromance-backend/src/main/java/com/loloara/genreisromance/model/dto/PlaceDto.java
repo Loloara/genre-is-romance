@@ -34,18 +34,12 @@ public class PlaceDto {
     @NoArgsConstructor(access = PROTECTED)
     public static class PlaceInfo {
 
-        private Long id;
         private String placeName;
         private Set<MatchInfo> matchInfos;
-        private LocalDateTime createdDate;
-        private LocalDateTime lastModifiedDate;
 
         public PlaceInfo(Place place) {
-            id = place.getId();
             placeName = place.getPlaceName();
             setMatchInfos(place.getMatchPlaces());
-            createdDate = place.getCreatedDate();
-            lastModifiedDate = place.getLastModifiedDate();
         }
 
         public void setMatchInfos(Set<MatchPlace> matchInfos) {

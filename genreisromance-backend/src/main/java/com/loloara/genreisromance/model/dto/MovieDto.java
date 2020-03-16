@@ -36,18 +36,12 @@ public class MovieDto {
     @NoArgsConstructor(access = PROTECTED)
     public static class MovieInfo {
 
-        private Long id;
         private String movieTitle;
         private Set<MatchInfo> matchInfos;
-        private LocalDateTime createdDate;
-        private LocalDateTime lastModifiedDate;
 
         public MovieInfo(Movie movie) {
-            id = movie.getId();
             movieTitle = movie.getMovieTitle();
             setMatchInfos(movie.getMatchMovies());
-            createdDate = movie.getCreatedDate();
-            lastModifiedDate = movie.getLastModifiedDate();
         }
 
         public void setMatchInfos(Set<MatchMovie> matchInfos) {
