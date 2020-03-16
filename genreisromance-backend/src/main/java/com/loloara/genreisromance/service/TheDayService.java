@@ -1,11 +1,18 @@
 package com.loloara.genreisromance.service;
 
+import com.loloara.genreisromance.common.exception.ApiException;
 import com.loloara.genreisromance.model.domain.TheDay;
+import com.loloara.genreisromance.model.dto.TheDayDto;
 import com.loloara.genreisromance.repository.TheDayRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDate;
+
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
 @Service
 @Slf4j
@@ -17,32 +24,34 @@ public class TheDayService {
         this.theDayRepository = theDayRepository;
     }
 
-    public TheDay save(TheDay theDay) {
-        return theDayRepository.save(theDay);
+    public TheDayDto.TheDayInfo registerTheDay(TheDayDto.Create theDayDto) {
+
+        TheDay newTheDay = TheDay.builder()
+                .dayDate(theDayDto.getDayDate())
+                .dayTime(theDayDto.getDayTime())
+                .build();
+
+        ExampleMatcher modelMatcher = ExampleMatcher.matching()
+                .withIgnorePaths("id", "createdDate", "lastModifiedDate", "matchTheDays")
+                .withMatcher("dayTime", ignoreCase())
+                .withMatcher("dayDate", ignoreCase());
+
+        Example<TheDay> example = Example.of(newTheDay, modelMatcher);
+
+        newTheDay = theDayRepository.findOne(example).orElse(newTheDay);
+
+        return new TheDayDto.TheDayInfo(theDayRepository.save(newTheDay));
     }
 
-    public void saveAll(List<TheDay> theDays) {
-        theDayRepository.saveAll(theDays);
+    public TheDayDto.TheDayInfos findByDayDate(LocalDate dayDate) {
+        return new TheDayDto.TheDayInfos(theDayRepository.findByDayDate(dayDate));
     }
 
-    public List<TheDay> findFetchAll() {
-        return theDayRepository.findFetchAll();
-    }
+    public TheDayDto.TheDayInfo updateTheDay(TheDayDto.Update theDayDto, Long theDayId) {
+        TheDay theDay = theDayRepository.findById(theDayId)
+                .orElseThrow(() -> new ApiException("TheDay Not Found", HttpStatus.NOT_FOUND));
+        theDay.updateVal(theDayDto);
 
-    public TheDay findByIdFetchAll(Long theDayId) {
-        log.info("Find theDay with all fetch by theDayId : {}", theDayId);
-        return theDayRepository.findByIdFetchAll(theDayId)
-                .orElseThrow(IllegalArgumentException::new);
-    }
-
-    public TheDay findById(Long theDayId) {
-        log.info("Find theDay by theDayId : {}", theDayId);
-        return theDayRepository.findById(theDayId)
-                .orElseThrow(IllegalArgumentException::new);
-    }
-
-    public void delete(TheDay theDay) {
-        log.info("Delete theDay by object TheDay : {}", theDay.getId());
-        theDayRepository.delete(theDay);
+        return new TheDayDto.TheDayInfo(theDayRepository.save(theDay));
     }
 }

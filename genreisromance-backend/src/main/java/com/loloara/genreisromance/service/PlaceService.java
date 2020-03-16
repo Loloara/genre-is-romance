@@ -1,11 +1,12 @@
 package com.loloara.genreisromance.service;
 
+import com.loloara.genreisromance.common.exception.ApiException;
 import com.loloara.genreisromance.model.domain.Place;
+import com.loloara.genreisromance.model.dto.PlaceDto;
 import com.loloara.genreisromance.repository.PlaceRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @Slf4j
@@ -17,32 +18,30 @@ public class PlaceService {
         this.placeRepository = placeRepository;
     }
 
-    public Place save(Place place) {
-        return placeRepository.save(place);
+    public PlaceDto.PlaceInfo registerPlace(PlaceDto.Create placeDto) {
+        if(placeRepository.existsById(placeDto.getPlaceName())) {
+            throw new ApiException("Place Already exists.", HttpStatus.BAD_REQUEST);
+        }
+
+        Place newPlace = Place.builder()
+                .placeName(placeDto.getPlaceName())
+                .build();
+
+        return new PlaceDto.PlaceInfo(placeRepository.save(newPlace));
     }
 
-    public void saveAll(List<Place> places) {
-        placeRepository.saveAll(places);
+    public PlaceDto.PlaceInfos findAll() {
+        return new PlaceDto.PlaceInfos(placeRepository.findAll());
     }
 
-    public List<Place> findFetchAll() {
-        return placeRepository.findFetchAll();
-    }
+    public PlaceDto.PlaceInfo updatePlace(PlaceDto.Update placeDto) {
+        if(placeDto.getPlaceName() == null) {
+            throw new IllegalArgumentException();
+        }
+        Place place = placeRepository.findById(placeDto.getPlaceName())
+                .orElseThrow(() -> new ApiException("Place Not Found", HttpStatus.NOT_FOUND));
+        place.updateVal(placeDto);
 
-    public Place findByIdFetchAll (Long placeId) {
-        log.info("Find place with all fetch by placeId : {}", placeId);
-        return placeRepository.findByIdFetchAll(placeId)
-                .orElseThrow(IllegalArgumentException::new);
-    }
-
-    public Place findById(Long placeId) {
-        log.info("Find place by placeId : {}", placeId);
-        return placeRepository.findById(placeId)
-                .orElseThrow(IllegalArgumentException::new);
-    }
-
-    public void delete(Place place) {
-        log.info("Delete place by object Place : {}", place.getId());
-        placeRepository.delete(place);
+        return new PlaceDto.PlaceInfo(placeRepository.save(place));
     }
 }

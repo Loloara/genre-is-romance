@@ -1,11 +1,12 @@
 package com.loloara.genreisromance.service;
 
+import com.loloara.genreisromance.common.exception.ApiException;
 import com.loloara.genreisromance.model.domain.Movie;
+import com.loloara.genreisromance.model.dto.MovieDto;
 import com.loloara.genreisromance.repository.MovieRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @Slf4j
@@ -17,32 +18,30 @@ public class MovieService {
         this.movieRepository = movieRepository;
     }
 
-    public Movie save(Movie movie) {
-        return movieRepository.save(movie);
+    public MovieDto.MovieInfo registerMovie(MovieDto.Create movieDto) {
+        if(movieRepository.existsById(movieDto.getMovieTitle())) {
+            throw new ApiException("Movie Already exists.", HttpStatus.BAD_REQUEST);
+        }
+
+        Movie newMovie = Movie.builder()
+                .movieTitle(movieDto.getMovieTitle())
+                .build();
+
+        return new MovieDto.MovieInfo(movieRepository.save(newMovie));
     }
 
-    public void saveAll(List<Movie> movies) {
-        movieRepository.saveAll(movies);
+    public MovieDto.MovieInfos findAll() {
+        return new MovieDto.MovieInfos(movieRepository.findAll());
     }
 
-    public List<Movie> findFetchAll() {
-        return movieRepository.findFetchAll();
-    }
+    public MovieDto.MovieInfo updateMovie(MovieDto.Update movieDto) {
+        if(movieDto.getMovieTitle() == null) {
+            throw new IllegalArgumentException();
+        }
+        Movie movie = movieRepository.findById(movieDto.getMovieTitle())
+                .orElseThrow(() -> new ApiException("Movie Not Found", HttpStatus.NOT_FOUND));
+        movie.updateVal(movieDto);
 
-    public Movie findByIdFetchAll (Long movieId) {
-        log.info("Find movie with all fetch by movieId : {}", movieId);
-        return movieRepository.findByIdFetchAll(movieId)
-                .orElseThrow(IllegalArgumentException::new);
-    }
-
-    public Movie findById(Long movieId) {
-        log.info("Find movie by movieId : {}", movieId);
-        return movieRepository.findById(movieId)
-                    .orElseThrow(IllegalArgumentException::new);
-    }
-
-    public void delete(Movie movie) {
-        log.info("Delete movie by object Movie : {}", movie.getId());
-        movieRepository.delete(movie);
+        return new MovieDto.MovieInfo(movieRepository.save(movie));
     }
 }
