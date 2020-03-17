@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -51,12 +50,12 @@ public class MovieDto {
 
     @Getter @Setter
     public static class MovieInfos {
-        private List<MovieDto.MovieInfo> movieInfos;
+        private List<MovieInfo> movieInfos;
 
         public MovieInfos(List<Movie> movies) {
             movieInfos = new ArrayList<>();
             for(Movie m : movies) {
-                movieInfos.add(new MovieDto.MovieInfo(m));
+                movieInfos.add(new MovieInfo(m));
             }
         }
     }

@@ -63,12 +63,12 @@ public class TheDayDto {
 
     @Getter @Setter
     public static class TheDayInfos {
-        private List<TheDayDto.TheDayInfo> theDayInfos;
+        private List<TheDayInfo> theDayInfos;
 
         public TheDayInfos(List<TheDay> theDays) {
             theDayInfos = new ArrayList<>();
             for(TheDay t : theDays) {
-                theDayInfos.add(new TheDayDto.TheDayInfo(t));
+                theDayInfos.add(new TheDayInfo(t));
             }
         }
     }

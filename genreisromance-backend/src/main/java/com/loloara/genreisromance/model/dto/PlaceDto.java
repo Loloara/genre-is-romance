@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -49,12 +48,12 @@ public class PlaceDto {
 
     @Getter @Setter
     public static class PlaceInfos {
-        private List<PlaceDto.PlaceInfo> placeInfos;
+        private List<PlaceInfo> placeInfos;
 
         public PlaceInfos(List<Place> places) {
             placeInfos = new ArrayList<>();
             for(Place p : places) {
-                placeInfos.add(new PlaceDto.PlaceInfo(p));
+                placeInfos.add(new PlaceInfo(p));
             }
         }
     }
