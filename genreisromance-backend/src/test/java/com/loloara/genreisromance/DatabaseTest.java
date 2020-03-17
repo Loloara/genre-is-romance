@@ -250,21 +250,21 @@ public class DatabaseTest {
         }
 
         for(MatchPlace mp : matchInfo.getPlaces()){
-            System.out.println("logging_places_of_matchInfo : "+mp.getId()+" : " + mp.getPlace().getId()+"_"+mp.getPlace().getPlaceName());
-            Place place = placeRepository.findByIdFetchAll(mp.getPlace().getId()).orElseThrow(() -> new ApiException("Not Found"));
-            assertEquals(mp.getPlace().getId(), place.getId());
+            System.out.println("logging_places_of_matchInfo : "+mp.getId()+" : " + mp.getPlace().getPlaceName());
+            Place place = placeRepository.findByIdFetchAll(mp.getPlace().getPlaceName()).orElseThrow(() -> new ApiException("Not Found"));
+            assertEquals(mp.getPlace().getPlaceName(), place.getPlaceName());
             for(MatchPlace mp2 : place.getMatchPlaces()){
-                System.out.println("logging_place : " + place.getId()+ " : " + mp2.getId());
+                System.out.println("logging_place : " + place.getPlaceName()+ " : " + mp2.getId());
                 assertEquals(mp.getId(), mp2.getId());
             }
         }
 
         for(MatchMovie mv : matchInfo.getMovies()){
-            System.out.println("logging_movies_of_matchInfo : "+mv.getId()+" : " + mv.getMovie().getId()+"_"+mv.getMovie().getMovieTitle());
-            Movie movie = movieRepository.findByIdFetchAll(mv.getMovie().getId()).orElseThrow(() -> new ApiException("Not Found"));
-            assertEquals(mv.getMovie().getId(), movie.getId());
+            System.out.println("logging_movies_of_matchInfo : "+mv.getId()+" : " + mv.getMovie().getMovieTitle());
+            Movie movie = movieRepository.findByIdFetchAll(mv.getMovie().getMovieTitle()).orElseThrow(() -> new ApiException("Not Found"));
+            assertEquals(mv.getMovie().getMovieTitle(), movie.getMovieTitle());
             for(MatchMovie mv2 : movie.getMatchMovies()){
-                System.out.println("logging_movie : " + movie.getId()+" : " + mv2.getId());
+                System.out.println("logging_movie : " + movie.getMovieTitle()+" : " + mv2.getId());
                 assertEquals(mv.getId(), mv2.getId());
             }
         }
@@ -290,14 +290,14 @@ public class DatabaseTest {
         List<Place> places = placeRepository.findFetchAll();
         System.out.println("Place_size: " + places.size());
         for(Place place : places) {
-            System.out.println("Place_id: " + place.getId() + " // have " + place.getMatchPlaces().size() + " MatchPlaces");
+            System.out.println("Place_name: " + place.getPlaceName() + " // have " + place.getMatchPlaces().size() + " MatchPlaces");
             placeRepository.delete(place);
         }
 
         List<Movie> movies = movieRepository.findFetchAll();
         System.out.println("movies_size: " + movies.size());
         for(Movie movie : movies) {
-            System.out.println("Movie_id: " + movie.getId() + " // have " + movie.getMatchMovies().size() + " MatchMovies");
+            System.out.println("Movie_Title: " + movie.getMovieTitle() + " // have " + movie.getMatchMovies().size() + " MatchMovies");
             movieRepository.delete(movie);
         }
 
