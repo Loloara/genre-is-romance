@@ -15,6 +15,6 @@ public interface PlaceRepository extends JpaRepository<Place, String> {
     @Query("select p from Place p left join fetch p.matchPlaces")
     List<Place> findFetchAll();
 
-    @Query("select p from Place p join fetch p.matchPlaces where p.id = :id")
-    Optional<Place> findByIdFetchAll(@Param("id") Long id);
+    @Query("select p from Place p join fetch p.matchPlaces where p.placeName = :placeName")
+    Optional<Place> findByIdFetchAll(@Param("placeName") String placeName);
 }

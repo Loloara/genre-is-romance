@@ -15,6 +15,6 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
     @Query("select m from Movie m left join fetch m.matchMovies")
     List<Movie> findFetchAll();
 
-    @Query("select m from Movie m join fetch m.matchMovies where m.id = :id")
-    Optional<Movie> findByIdFetchAll(@Param("id") Long id);
+    @Query("select m from Movie m join fetch m.matchMovies where m.movieTitle = :movieTitle")
+    Optional<Movie> findByIdFetchAll(@Param("movieTitle") String movieTitle);
 }
