@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @RequestMapping("/api/theday")
 public class TheDayController {
 
-    TheDayService theDayService;
+    private final TheDayService theDayService;
 
     public TheDayController(TheDayService theDayService) {
         this.theDayService = theDayService;

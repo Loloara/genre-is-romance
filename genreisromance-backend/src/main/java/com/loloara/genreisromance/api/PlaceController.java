@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/place")
 public class PlaceController {
 
-    PlaceService placeService;
+    private final PlaceService placeService;
 
     public PlaceController(PlaceService placeService) {
         this.placeService = placeService;
