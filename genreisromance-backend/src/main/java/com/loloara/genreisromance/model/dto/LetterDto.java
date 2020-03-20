@@ -43,7 +43,7 @@ public class LetterDto {
     @Getter @Builder
     public static class UpdateProcess {
 
-        private ProcessType process;
+        private int process;
     }
 
     @Getter @Setter @NoArgsConstructor(access = PROTECTED)

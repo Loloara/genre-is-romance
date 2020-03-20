@@ -97,6 +97,6 @@ public class UserDto {
     @Getter @Builder
     public static class UpdateProcess {
 
-        private ProcessType process;
+        private int process;
     }
 }
