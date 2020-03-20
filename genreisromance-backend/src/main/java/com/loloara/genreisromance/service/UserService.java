@@ -67,7 +67,7 @@ public class UserService {
     public UserDto.UserInfo updateUserProcess(UserDto.UpdateProcess userDto, Long userId) {
         User newUser = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException("User does not exist", HttpStatus.NOT_FOUND));
-        newUser.setProcess(userDto.getProcess());
+        newUser.setProcess(ProcessType.fromInteger(userDto.getProcess()));
 
         return new UserDto.UserInfo(userRepository.save(newUser));
     }
