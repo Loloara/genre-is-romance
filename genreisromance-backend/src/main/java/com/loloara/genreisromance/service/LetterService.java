@@ -48,7 +48,7 @@ public class LetterService {
     public LetterDto.LetterInfo updateLetterProcess(LetterDto.UpdateProcess letterDto, Long userId) {
         Letter letter = letterRepository.findByUserId(userId)
                 .orElseThrow(() -> new ApiException("Letter does not exist", HttpStatus.NOT_FOUND));
-        letter.setProcess(letterDto.getProcess());
+        letter.setProcess(ProcessType.fromInteger(letterDto.getProcess()));
 
         return new LetterDto.LetterInfo(letterRepository.save(letter));
     }
