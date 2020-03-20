@@ -2,6 +2,7 @@ package com.loloara.genreisromance.model.domain;
 
 import com.loloara.genreisromance.common.util.ProcessType;
 import com.loloara.genreisromance.model.BaseEntity;
+import com.loloara.genreisromance.model.dto.MatchInfoDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -65,6 +66,10 @@ public class MatchInfo extends BaseEntity {
     @NotNull
     private ProcessType process = ProcessType.SEARCHING;
 
+    @Builder.Default
+    @NotNull
+    private boolean onProcess = true;
+
     @OneToOne(fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.MERGE
@@ -78,6 +83,15 @@ public class MatchInfo extends BaseEntity {
     })
     @JoinColumn(name = "user_female_id", referencedColumnName = "id")
     private User userFemaleId;
+
+    public void closeMatch() {
+        onProcess = false;
+    }
+
+    public boolean updateVal(MatchInfoDto.UpdateMatchInfo matchInfoDto) {
+        this.process = ProcessType.fromInteger(matchInfoDto.getProcess());
+        return true;
+    }
 
     @PreRemove
     private void preRemove() {
