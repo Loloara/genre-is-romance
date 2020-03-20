@@ -32,6 +32,12 @@ public class TheDay extends BaseEntity {
             })
     private Set<MatchTheDay> matchTheDays = new HashSet<>();
 
+    public TheDay(Long id) {
+        this.id = id;
+        dayDate = LocalDate.now();
+        dayTime = DayTime._7PM;
+    }
+
     public boolean updateVal(TheDayDto.Update theDayDto) {
         LocalDate newDayDate = theDayDto.getDayDate();
         DayTime newDayTime = theDayDto.getDayTime();
