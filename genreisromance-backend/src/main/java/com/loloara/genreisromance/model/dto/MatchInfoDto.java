@@ -28,19 +28,19 @@ public class MatchInfoDto {
         private Long userFemaleId;
     }
 
-    @Getter @Builder
+    @Getter @Builder @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
     public static class AddMatchMovies {
 
         private List<String> movieIds;
     }
 
-    @Getter @Builder
+    @Getter @Builder @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
     public static class AddMatchPlaces {
 
         private List<String> placeIds;
     }
 
-    @Getter @Builder
+    @Getter @Builder @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
     public static class AddMatchTheDays {
 
         private List<Long> thedayIds;
@@ -54,6 +54,8 @@ public class MatchInfoDto {
         private ProcessType process;
         private LocalDateTime createdDate;
         private LocalDateTime lastModifiedDate;
+        private String messageFromM;
+        private String messageFromW;
         private Set<Movie> movies = new HashSet<>();
         private Set<TheDay> theDays = new HashSet<>();
         private Set<Place> places = new HashSet<>();
@@ -63,6 +65,8 @@ public class MatchInfoDto {
             process = matchInfo.getProcess();
             createdDate = matchInfo.getCreatedDate();
             lastModifiedDate = matchInfo.getLastModifiedDate();
+            messageFromM = matchInfo.getMessageFromM();
+            messageFromW = matchInfo.getMessageFromW();
             setMovies(matchInfo.getMovies());
             setTheDays(matchInfo.getThe_days());
             setPlaces(matchInfo.getPlaces());
@@ -166,6 +170,9 @@ public class MatchInfoDto {
 
     @Getter @Builder
     public static class UpdateMatchInfo {
-        private int process;
+        @Builder.Default
+        private int process = -1;
+        private String messageFromW;
+        private String messageFromM;
     }
 }
