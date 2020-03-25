@@ -13,11 +13,11 @@ import java.util.Optional;
 @Repository
 public interface LetterRepository extends JpaRepository<Letter, Long> {
 
-    @Query("select l from Letter l where l.user_id = :userId")
+    @Query("select l from Letter l where l.user_id.id = :userId")
     Optional<Letter> findByUserId(@Param("userId") Long userId);
 
     List<Letter> findByProcess(ProcessType process);
 
-    @Query("select case when count(l) > 0 then true else false end from Letter l where l.user_id = :userId")
+    @Query("select case when count(l) > 0 then true else false end from Letter l where l.user_id.id = :userId")
     boolean existsByUserId(@Param("userId") Long userId);
 }
