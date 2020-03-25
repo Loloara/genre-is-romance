@@ -56,12 +56,12 @@ public class MatchController {
         return new ResponseEntity<MatchInfoDto.MatchTheDays>(response, HttpStatus.CREATED);
     }
 
-    @ApiOperation(value = "update process of MatchInfo", notes = "MatchInfo의 프로세스 변경")
+    @ApiOperation(value = "update MatchInfo", notes = "MatchInfo의 프로세스, toManager 메시지 변경")
     @PutMapping("process/{matchInfoId}")
-    public ResponseEntity<MatchInfoDto.MatchInfoResponse> updateProcessOfMatchInfo(@PathVariable Long matchInfoId,
+    public ResponseEntity<MatchInfoDto.MatchInfoResponse> updateMatchInfo(@PathVariable Long matchInfoId,
                                                                           @RequestBody MatchInfoDto.UpdateMatchInfo matchInfoDto) {
-        log.debug("REST request to update process of MatchInfo" + matchInfoId + " : {}", matchInfoDto);
-        MatchInfoDto.MatchInfoResponse response = matchInfoService.updateProcessOfMatchInfo(matchInfoId, matchInfoDto);
+        log.debug("REST request to update MatchInfo" + matchInfoId + " : {}", matchInfoDto);
+        MatchInfoDto.MatchInfoResponse response = matchInfoService.updateMatchInfo(matchInfoId, matchInfoDto);
         return new ResponseEntity<MatchInfoDto.MatchInfoResponse>(response, HttpStatus.OK);
     }
 }
