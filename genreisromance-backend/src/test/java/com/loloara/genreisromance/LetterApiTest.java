@@ -1,8 +1,5 @@
 package com.loloara.genreisromance;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.loloara.genreisromance.model.dto.UserDto;
 import com.loloara.genreisromance.repository.LetterRepository;
 import org.json.JSONObject;
@@ -17,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static com.loloara.genreisromance.UtilForTest.asJsonString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -59,16 +57,5 @@ public class LetterApiTest {
                 .andReturn();
 
         System.out.println("getLettersTest: " + result.getResponse().getContentAsString());
-    }
-
-    public static String asJsonString(final Object o) {
-        try{
-            return new ObjectMapper()
-                    .registerModule(new JavaTimeModule())
-                    .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-                    .writeValueAsString(o);
-        } catch(Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }

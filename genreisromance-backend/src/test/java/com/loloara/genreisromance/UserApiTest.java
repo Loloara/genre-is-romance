@@ -1,8 +1,5 @@
 package com.loloara.genreisromance;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.loloara.genreisromance.common.util.Gender;
 import com.loloara.genreisromance.model.domain.UserAuthority;
 import com.loloara.genreisromance.model.dto.UserDto;
@@ -22,6 +19,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDate;
 
+import static com.loloara.genreisromance.UtilForTest.asJsonString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -128,16 +126,5 @@ public class UserApiTest {
                 .andReturn();
 
         System.out.println("CurrentUserTest: " + result2.getResponse().getContentAsString());
-    }
-
-    public static String asJsonString(final Object o) {
-        try{
-            return new ObjectMapper()
-                    .registerModule(new JavaTimeModule())
-                    .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-                    .writeValueAsString(o);
-        } catch(Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }
