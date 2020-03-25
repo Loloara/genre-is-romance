@@ -53,13 +53,13 @@ public class MatchInfo extends BaseEntity {
 
     @Builder.Default
     @Size(max = 100)
-    @Column(name = "to_manager_from_w", length = 100, nullable = false)
-    private String toManagerFromW = "nothing to say";
+    @Column(name = "message_from_w", length = 100, nullable = false)
+    private String messageFromW = "nothing to say";
 
     @Builder.Default
     @Size(max = 100)
-    @Column(name = "to_manager_from_m", length = 100, nullable = false)
-    private String toManagerFromM = "nothing to say";
+    @Column(name = "message_from_m", length = 100, nullable = false)
+    private String messageFromM = "nothing to say";
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -89,7 +89,21 @@ public class MatchInfo extends BaseEntity {
     }
 
     public boolean updateVal(MatchInfoDto.UpdateMatchInfo matchInfoDto) {
-        this.process = ProcessType.fromInteger(matchInfoDto.getProcess());
+        int newProcess = matchInfoDto.getProcess();
+        String newMessageFromM = matchInfoDto.getMessageFromM();
+        String newMessageFromW = matchInfoDto.getMessageFromW();
+        if(newProcess == -1 && newMessageFromM == null && newMessageFromW == null) {
+            return false;
+        }
+        if(newProcess > 0 && newProcess < 5) {
+            this.process = ProcessType.fromInteger(newProcess);
+        }
+        if(newMessageFromM != null) {
+            this.messageFromM = newMessageFromM;
+        }
+        if(newMessageFromW != null) {
+            this.messageFromW = newMessageFromW;
+        }
         return true;
     }
 
