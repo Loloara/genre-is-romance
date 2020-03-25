@@ -1,10 +1,7 @@
 package com.loloara.genreisromance.model.dto;
 
 import com.loloara.genreisromance.model.domain.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -16,7 +13,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 public class PlaceDto {
 
-    @Getter @Builder
+    @Getter @Builder @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
     public static class Create {
 
         @NotNull(message = "장소 이름은 필수 입력 값입니다.")

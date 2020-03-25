@@ -2,10 +2,7 @@ package com.loloara.genreisromance.model.dto;
 
 import com.loloara.genreisromance.common.util.DayTime;
 import com.loloara.genreisromance.model.domain.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -19,7 +16,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 public class TheDayDto {
 
-    @Getter @Builder
+    @Getter @Builder @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
     public static class Create {
 
         @NotNull(message = "날짜는 필수 입력 값입니다.")
