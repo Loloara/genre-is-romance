@@ -116,7 +116,7 @@ public class MatchInfoService {
         return new MatchInfoDto.MatchTheDays(matchTheDayRepository.saveAll(matchTheDays));
     }
 
-    public MatchInfoDto.MatchInfoResponse updateProcessOfMatchInfo(Long matchInfoId, MatchInfoDto.UpdateMatchInfo matchInfoDto) {
+    public MatchInfoDto.MatchInfoResponse updateMatchInfo(Long matchInfoId, MatchInfoDto.UpdateMatchInfo matchInfoDto) {
         MatchInfo matchInfo = matchInfoRepository.findByUserIdOnProcess(matchInfoId)
                 .orElseThrow(() -> new ApiException("Not Found MatchInfo Activated", HttpStatus.NOT_FOUND));
         matchInfo.updateVal(matchInfoDto);
