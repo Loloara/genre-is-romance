@@ -61,6 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(http401ErrorEntryPoint())
                 .and()
                 .authorizeRequests()
+                .antMatchers("/**/*.woff", "/**/*.woff2", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/favicon.ico", "/**/*.css", "/**/*.js", "/swagger-ui.html", "/swagger-resources/**", "/v2/**", "/error").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user", "/api/theday").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/movie", "/api/place").permitAll()
                 .antMatchers("/api/user/**", "/api/auth/email**").permitAll()
