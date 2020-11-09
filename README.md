@@ -7,7 +7,7 @@ This project is under development.
 Component         | Technology
 ---               | ---
 Frontend          | React 16+
-Backend           | Spring Boot 2.2+, Java 13+
+Backend           | Spring Boot 2.2+, Java 8
 Security          | Spring Security, JWT
 Auth              | Local, Google
 Database          | Mysql
